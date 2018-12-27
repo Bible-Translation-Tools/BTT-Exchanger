@@ -1,0 +1,141 @@
+version: '3.2'
+
+services:
+  db:
+    image: postgres
+    container_name: ps01
+    restart: on-failure
+    volumes:
+      - ./config/postgres:/docker-entrypoint-initdb.d
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_MULTIPLE_DATABASES="sentry"
+
+  redis:
+    restart: on-failure
+    image: redis
+    expose: 
+      - "6379"
+
+  sentry:
+      image: sentry
+      restart: on-failure
+      volumes:
+        - "./config/sentry/:/home/sentry/.sentry/"
+        - ./scripts:/scripts
+        - dsn:/dsn
+      ports:
+        - 9000:9000
+      stdin_open: true
+      tty: true
+      command: > 
+        bash -c "/scripts/dsn_cleanup.sh &&
+          /scripts/wait-for-it.sh -h db -p 5432 --
+          sentry upgrade --noinput &&
+          python /scripts/sentry_init.py &&
+          sentry run web"
+      environment:
+        SENTRY_SECRET_KEY: n9ym0jlvqr8n_ygpc7kxz@2joayj-d0(n!pxp*b##udbu$xiw2
+        SENTRY_DB_NAME: sentry
+        SENTRY_POSTGRES_HOST: db
+        SENTRY_REDIS_HOST: redis
+      depends_on:
+        - db
+        - redis
+
+  sentry_cron:
+    image: 'sentry'
+    restart: on-failure
+    depends_on:
+      - redis
+      - db
+    command: "sentry run cron"
+    environment:
+      SENTRY_SECRET_KEY: n9ym0jlvqr8n_ygpc7kxz@2joayj-d0(n!pxp*b##udbu$xiw2
+      SENTRY_POSTGRES_HOST: db
+      SENTRY_DB_NAME: 'sentry'
+      SENTRY_REDIS_HOST: 'redis'
+
+  sentry_worker:
+    image: 'sentry'
+    restart: on-failure
+    depends_on:
+      - redis
+      - db
+    command: "sentry run worker"
+    environment:
+      SENTRY_SECRET_KEY: n9ym0jlvqr8n_ygpc7kxz@2joayj-d0(n!pxp*b##udbu$xiw2
+      SENTRY_POSTGRES_HOST: db
+      SENTRY_DB_NAME: 'sentry'
+      SENTRY_REDIS_HOST: 'redis'
+
+  web:
+    image: danpariswa/te-base
+    container_name: dg01
+    restart: on-failure
+    volumes:
+      - tE-backend:/var/www/html/tE-backend
+      - ./scripts:/scripts
+      - ./config:/config
+      - dsn:/dsn
+    depends_on:
+      - db
+      - sentry
+    expose:
+      - "8000"
+    entrypoint: /scripts/entrypoint-web.sh
+
+  celery_worker:
+    image: danpariswa/te-base
+    restart: on-failure
+    environment: 
+      - C_FORCE_ROOT=true
+    volumes:
+      - tE-backend:/var/www/html/tE-backend/
+      - ./scripts:/scripts
+      - dsn:/dsn
+    command: bash -c "/scripts/wait-for-it.sh -h web -p 8000 -- celery -A tRecorderApi worker -l error -Ofair -c1"
+    depends_on:
+      - redis
+      - web
+
+  flower:
+    image: danpariswa/te-base
+    volumes:
+      - tE-backend:/var/www/html/tE-backend/
+      - dsn:/dsn
+    command: bash -c "celery flower -A tRecorderApi --port=5555"
+    ports:
+      - "5555:5555"
+    depends_on:
+      - redis
+      - web
+
+  nginx:
+    image: nginx
+    restart: on-failure
+    container_name: ng01
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - tE-backend:/var/www/html/tE-backend
+      - ./config/nginx:/etc/nginx/conf.d
+      - ./config:/etc/ssl
+      - ./config:/etc/nginx/snippets
+    depends_on:
+      - web
+
+  ap:
+    image: danpariswa/te-ap
+    container_name: ap01
+    network_mode: host
+    privileged: true
+    stop_signal: SIGTERM
+    depends_on: 
+      - nginx
+
+volumes:
+  postgres_data:
+  tE-backend:
+  dsn:
