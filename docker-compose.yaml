@@ -70,7 +70,7 @@ services:
       SENTRY_REDIS_HOST: 'redis'
 
   web:
-    image: danpariswa/te-base:experimental
+    image: danpariswa/te-base
     container_name: dg01
     restart: on-failure
     volumes:
@@ -86,7 +86,7 @@ services:
     entrypoint: /scripts/entrypoint-web.sh
 
   celery_worker:
-    image: danpariswa/te-base:experimental
+    image: danpariswa/te-base
     restart: on-failure
     environment: 
       - C_FORCE_ROOT=true
@@ -100,7 +100,7 @@ services:
       - web
 
   flower:
-    image: danpariswa/te-base:experimental
+    image: danpariswa/te-base
     volumes:
       - tE-backend:/var/www/html/tE-backend/
       - dsn:/dsn
