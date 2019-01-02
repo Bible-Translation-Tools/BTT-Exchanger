@@ -1,7 +1,7 @@
 gunicorn~=19.7
 pydub
 gevent
-django~=2.1.12
+django~=1.11.15
 django_rest_framework
 django-cors-headers
 coreapi
@@ -12,5 +12,5 @@ raven
 celery
 redis
 flower
-drf-yasg
+drf-yasg~=1.11.1
 rest-social-auth
