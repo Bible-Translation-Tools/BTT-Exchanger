@@ -6,10 +6,17 @@ Installation files and scripts for Translation Exchange.
 2. Ubuntu 18.04 installed with user named `Ott`
 
 ## Installation
-1. Go to Releases in this repo
-2. Download the archive you want to use
-3. Extract the archive into `~te/base` so that the files and directories such as `install.sh` script is located in `/home/ott/te-base`
-4. execute the install.sh script.
+
+1. Download the zip file from releases in this repo
+2. Extract the archive into `~/tebase` so that the files and directories such as `install.sh` script is located in `/home/ott/te-base`
+3. execute the install.sh script with something like `./install.sh`
+4. You may need to run something like `sudo chmod +x install.sh` to enable execution on the script
+
+or
+
+1. Clone this repo into ~/te-base with something like `git clone https://github.com/danparisd/te-base /home/ott/te-base`
+2. execute the install.sh script with something like `./install.sh`
+
 
 ## About the install.sh script
 The script adds the docker repo, installs dependencies, adds a cron job to start tE, pulls the needed docker images, and eventually reboots the machine to start tE via the cron job
