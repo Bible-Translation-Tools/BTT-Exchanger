@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#run this next line if you need to make this file executable
+# sudo chmod +x /home/ott/install.sh
+
 set -e
 
 COLOR='\033[0;35m'
@@ -27,6 +30,7 @@ sudo pip install docker-compose
 
 echo -e "${COLOR}----------| Inserting crontab task... |----------${NC}"
 
+sudo chmod -R +x /home/ott/te-base/scripts
 sudo cp /home/$USER/te-base/cron_netsvc_and_dockerup /etc/cron.d/cron_netsvc_and_dockerup
 
 cd /home/$USER/te-base
