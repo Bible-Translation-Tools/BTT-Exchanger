@@ -8,13 +8,13 @@ Installation files and scripts for Translation Exchange.
 ## Installation
 
 1. Download the zip file from releases in this repo
-2. Extract the archive into `~/tebase` so that the files and directories such as `install.sh` script is located in `/home/ott/te-base`
-3. execute the install.sh script with something like `./install.sh`
+2. Extract the archive into `~/te-release` so that the files and directories such as `install.sh` script are located in `/home/ott/te-release`
+3. Execute the install.sh script with something like `./install.sh`
 4. You may need to run something like `sudo chmod +x install.sh` to enable execution on the script
 
 or
 
-1. Clone this repo into ~/te-base with something like `git clone https://github.com/danparisd/te-base /home/ott/te-base`
+1. Clone this repo into ~/te-release with something like `git clone https://github.com/danparisd/te-release /home/ott/te-release`
 2. execute the install.sh script with something like `./install.sh`
 
 
