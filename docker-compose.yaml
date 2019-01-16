@@ -78,6 +78,7 @@ services:
       - ./scripts:/scripts
       - ./config:/config
       - dsn:/dsn
+    env_file: variables.env
     depends_on:
       - db
       - sentry
@@ -95,6 +96,7 @@ services:
       - ./scripts:/scripts
       - dsn:/dsn
     command: bash -c "/scripts/wait-for-it.sh -h web -p 8000 -- celery -A tRecorderApi worker -l error -Ofair -c1"
+    env_file: variables.env
     depends_on:
       - redis
       - web
@@ -107,6 +109,7 @@ services:
     command: bash -c "celery flower -A tRecorderApi --port=5555"
     ports:
       - "5555:5555"
+    env_file: variables.env
     depends_on:
       - redis
       - web
