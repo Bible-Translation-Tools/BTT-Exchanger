@@ -30,8 +30,8 @@ sudo pip install docker-compose
 
 echo -e "${COLOR}----------| Inserting crontab task... |----------${NC}"
 
-sudo chmod -R +x /home/ott/te-base/scripts
-sudo cp /home/$USER/te-base/cron_netsvc_and_dockerup /etc/cron.d/cron_netsvc_and_dockerup
+sudo chmod -R +x /home/ott/te-release/scripts
+sudo cp /home/$USER/te-release/cron_netsvc_and_dockerup /etc/cron.d/cron_netsvc_and_dockerup
 
 cd /home/$USER/te-base
 
