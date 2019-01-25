@@ -33,7 +33,7 @@ echo -e "${COLOR}----------| Inserting crontab task... |----------${NC}"
 sudo chmod -R +x /home/ott/te-release/scripts
 sudo cp /home/$USER/te-release/cron_netsvc_and_dockerup /etc/cron.d/cron_netsvc_and_dockerup
 
-cd /home/$USER/te-base
+cd /home/$USER/te-release
 
 sudo -- sh -c -e "echo '10.0.0.1	opentranslationtools.org' >> /etc/hosts"
 
