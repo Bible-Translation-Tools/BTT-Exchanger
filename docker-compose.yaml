@@ -122,7 +122,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - tE-backend:/var/www/html/tE-backend
+      - media:/var/www/html/tE-backend/tRecorderApi/media
       - ./config/nginx:/etc/nginx/conf.d
       - ./config:/etc/ssl
       - ./config:/etc/nginx/snippets
