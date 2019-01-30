@@ -78,6 +78,7 @@ services:
       - ./scripts:/scripts
       - ./config:/config
       - dsn:/dsn
+      - tmp:/var/www/html/tE-backend/tRecorderApi/tmp
     env_file: variables.env
     depends_on:
       - db
@@ -95,6 +96,7 @@ services:
       - media:/var/www/html/tE-backend/tRecorderApi/media
       - ./scripts:/scripts
       - dsn:/dsn
+      - tmp:/var/www/html/tE-backend/tRecorderApi/tmp
     command: bash -c "/scripts/wait-for-it.sh -h web -p 8000 -- celery -A tRecorderApi worker -l error -Ofair -c1"
     env_file: variables.env
     depends_on:
@@ -106,6 +108,7 @@ services:
     volumes:
       - media:/var/www/html/tE-backend/tRecorderApi/media
       - dsn:/dsn
+      - tmp:/var/www/html/tE-backend/tRecorderApi/tmp
     command: bash -c "celery flower -A tRecorderApi --port=5555"
     ports:
       - "5555:5555"
@@ -126,6 +129,7 @@ services:
       - ./config/nginx:/etc/nginx/conf.d
       - ./config:/etc/ssl
       - ./config:/etc/nginx/snippets
+      - tmp:/var/www/html/tE-backend/tRecorderApi/tmp
     depends_on:
       - web
 
@@ -142,3 +146,4 @@ volumes:
   postgres_data:
   media:
   dsn:
+  tmp:
