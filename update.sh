@@ -1,5 +1,7 @@
 #!//bin/bash
 
+sudo docker-compose down
+
 sudo systemctl enable NetworkManager.service
 sudo systemctl start NetworkManager.service
 
