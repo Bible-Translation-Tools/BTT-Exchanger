@@ -16,5 +16,5 @@ sudo docker-compose pull web
 clear
 
 echo -e "**********| Installation complete. Rebooting... |**********"
-
+sleep 5
 sudo reboot now
