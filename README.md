@@ -3,7 +3,7 @@ Installation files and scripts for Translation Exchange.
 
 ## Pre-reqs
 1. Intel NUC with SSD
-2. Ubuntu 18.04 installed with user named `Ott`
+2. Ubuntu 18.04 installed with user named `ott`
 
 ## Installation
 
@@ -14,7 +14,7 @@ Installation files and scripts for Translation Exchange.
 
 or
 
-1. Clone this repo into ~/te-release with something like `git clone https://github.com/danparisd/te-release /home/ott/te-release`
+1. Clone this repo into ~/te-release with something like `git clone https://github.com/wycliffeassociates/te-release /home/ott/te-release`
 2. execute the install.sh script with something like `./install.sh`
 
 
