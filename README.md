@@ -10,7 +10,7 @@ Installation files and scripts for Translation Exchange.
 1. Download the zip file from releases in this repo
 2. Extract the archive into `~/te-release` so that the files and directories such as `install.sh` script are located in `/home/ott/te-release`
 3. Execute the install.sh script with something like `./install.sh`
-4. You may need to run something like `sudo chmod +x install.sh` to enable execution on the script
+4. You may need to run something like `chmod +x install.sh` to enable execution on the script
 
 or
 
