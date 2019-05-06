@@ -1,0 +1,1 @@
+db redis sentry sentry_cron sentry_worker web celery_worker flower nginx
