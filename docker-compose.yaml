@@ -131,6 +131,7 @@ services:
       - ./config:/etc/ssl
       - ./config:/etc/nginx/snippets
       - tmp:/var/www/html/tE-backend/tRecorderApi/tmp
+      - ./clients:/var/www/html/tE-backend/tRecorderApi/api/downloads
     depends_on:
       - web
 
