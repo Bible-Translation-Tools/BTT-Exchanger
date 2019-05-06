@@ -26,10 +26,10 @@ if [ -z "$DOES_RELEASE_EXIST" ]; then exit;
 fi
 
 mkdir clients
-cp translationExchangeAndroid/app/build/outputs/apk/release/app-release.apk clients/te_android_client.apk
-cp translationExchange/dist/*.exe clients/te_windows_client.exe
-cp translationExchange/dist/*.AppImage clients/te_mac_client.AppImage
-cp translationExchange/dist/*.snap clients/te_linux_client.snap
+cp translationExchangeAndroid/app/build/outputs/apk/release/app-release.apk clients/te_android_client_$TAG.apk
+cp translationExchange/dist/*.exe clients/
+cp translationExchange/dist/*.AppImage clients/
+cp translationExchange/dist/*.zip clients/
 zip clients.zip ./clients/*
 
 #Check for the gothub Github release go package, if not there, go get it
