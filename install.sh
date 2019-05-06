@@ -35,6 +35,11 @@ sudo cp /home/$USER/te-release/cron_netsvc_and_dockerup /etc/cron.d/cron_netsvc_
 
 cd /home/$USER/te-release
 
+echo -e "${COLOR}----------| Downloading clients |----------${NC}"
+URL=$(curl 'https://api.github.com/repos/wycliffeassociates/te-release/releases?per_page=1' | jq -r '.[0] | .assets[].browser_download_url')
+curl -L $URL --output clients.zip
+unzip clients.zip
+
 sudo -- sh -c -e "echo '10.0.0.1	opentranslationtools.org' >> /etc/hosts"
 
 echo -e "${COLOR}----------| Pulling Docker Images... |----------${NC}"
