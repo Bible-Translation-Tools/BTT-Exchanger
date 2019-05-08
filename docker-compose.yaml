@@ -79,7 +79,7 @@ services:
       - ./config:/config
       - dsn:/dsn
       - tmp:/var/www/html/tE-backend/tRecorderApi/tmp
-      - ./clients:/var/www/html/tE-backend/tRecorderApi/api/downloads
+      - ./clients:/var/www/html/tE-backend/tRecorderApi/downloads
     env_file: variables.env
     depends_on:
       - db
@@ -131,7 +131,7 @@ services:
       - ./config:/etc/ssl
       - ./config:/etc/nginx/snippets
       - tmp:/var/www/html/tE-backend/tRecorderApi/tmp
-      - ./clients:/var/www/html/tE-backend/tRecorderApi/api/downloads
+      - ./clients:/var/www/html/tE-backend/tRecorderApi/downloads
     depends_on:
       - web
 
