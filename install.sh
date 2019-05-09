@@ -40,6 +40,10 @@ URL=$(curl 'https://api.github.com/repos/wycliffeassociates/te-release/releases?
 curl -L $URL --output clients.zip
 unzip clients.zip
 
+echo -e "${COLOR}----------| Downloading TranslationRecorder|----------${NC}"
+URL=$(curl 'https://api.github.com/repos/wycliffeassociates/translationrecorder/releases?per_page=1' | jq -r '.[0] | .assets[].browser_download_url')
+curl -L $URL --output clients/translationRecorder.apk
+
 sudo -- sh -c -e "echo '10.0.0.1	opentranslationtools.org' >> /etc/hosts"
 
 echo -e "${COLOR}----------| Pulling Docker Images... |----------${NC}"
