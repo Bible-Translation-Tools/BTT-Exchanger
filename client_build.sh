@@ -2,6 +2,10 @@
 
 set -e
 
+#Make script exit if there is no env set for STORE_PASSWORD. Jenkins sets this in during CI/CD. Prevents accidental script runs
+if [ -z $STORE_PASSWORD ]; then exit
+fi
+
 export ANDROID_HOME=/home/jenkins
 
 git clone https://github.com/WycliffeAssociates/translationExchange && git clone https://github.com/wycliffeassociates/translationExchangeAndroid
