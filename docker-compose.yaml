@@ -137,6 +137,10 @@ services:
 
   ap:
     image: wycliffeassociates/te-ap
+    volumes:
+      - ./config/ap/dnsmasq.conf:/etc/dnsmasq.conf
+      - ./config/ap/hostapd.conf:/etc/hostapd/hostapd.conf
+      - config_flag:/config_flag
     container_name: ap01
     network_mode: host
     privileged: true
@@ -148,4 +152,5 @@ volumes:
   postgres_data:
   media:
   dsn:
+  config_flag:
   tmp:
