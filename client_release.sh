@@ -6,6 +6,10 @@
 set -e
 set -x
 
+#make script exit if there is no variable passed in. Jenkins passes in a github token during CI/CD.
+if [ -z $1 ]; then exit
+fi
+
 export GOPATH=$(pwd)
 export GITHUB_USER=WycliffeAssociates
 export GITHUB_TOKEN=$1
