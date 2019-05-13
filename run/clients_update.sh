@@ -29,4 +29,4 @@ curl -L $URL -O
 
 echo -e "${COLOR}**********| DONE! |**********${NC}"
 
-sleep 30
+sleep 3
