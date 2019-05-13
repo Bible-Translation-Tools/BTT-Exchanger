@@ -44,6 +44,17 @@ echo -e "${COLOR}----------| Downloading TranslationRecorder|----------${NC}"
 URL=$(curl 'https://api.github.com/repos/wycliffeassociates/translationrecorder/releases?per_page=1' | jq -r '.[0] | .assets[].browser_download_url')
 curl -L $URL --output clients/translationRecorder.apk
 
+echo -e "${COLOR}----------| Downloading AdminTools into admintools dir |----------${NC}"
+mkdir admintools
+cd admintools
+curl 'https://api.github.com/repos/wycliffeassociates/teadmin/releases?per_page=1' | jq -r '.[0] | .assets[].browser_download_url' > files.txt
+wget -i files.txt
+URL=$(curl 'https://api.github.com/repos/wycliffeassociates/tr-chunk-browser/releases?per_page=1' | jq -r '.[0] | .assets[].browser_download_url')
+curl -L $URL -O
+URL=$(curl 'https://api.github.com/repos/wycliffeassociates/teadminandroid/releases?per_page=1' | jq -r '.[0] | .assets[].browser_download_url')
+curl -L $URL -O
+cd /home/$USER/te-release
+
 sudo -- sh -c -e "echo '10.0.0.1	opentranslationtools.org' >> /etc/hosts"
 
 echo -e "${COLOR}----------| Pulling Docker Images... |----------${NC}"
