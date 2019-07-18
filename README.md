@@ -5,6 +5,8 @@ Installation files and scripts for Translation Exchange.
 1. Intel NUC with SSD (1TB recommended)
 1. Debian 9.4 non-free installed with user named `ott`
     * The specific download we use is: https://cdimage.debian.org/cdimage/unofficial/non-free/images-including-firmware/archive/9.4.0-live+nonfree/amd64/iso-hybrid/debian-live-9.4.0-amd64-cinnamon+nonfree.iso
+    * `ott` user needs sudoers priveledge. On install of Debian you can leave the root password blank and have the `ott` user automatically added to sudoers, or you can give the root user a password and add `ott` to sudoers yourself.
+    * Wifi drivers need to be installed. This can be done in the install process if using Debian non-free.
 
 ## Installation
 
@@ -16,6 +18,7 @@ Installation files and scripts for Translation Exchange.
 or
 
 1. Clone this repo into ~/te-release with something like `git clone https://github.com/wycliffeassociates/te-release /home/ott/te-release`
+1. Open a terminal in `/home/ott/te-release`
 1. execute the install.sh script with something like `./install.sh`
 
 
