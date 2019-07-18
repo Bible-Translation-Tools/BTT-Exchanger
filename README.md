@@ -4,7 +4,7 @@ Installation files and scripts for Translation Exchange.
 ## Pre-reqs
 1. Intel NUC with SSD (1TB recommended)
 1. Debian 9.4 non-free installed with user named `ott`
-  * The specific download we use is: https://cdimage.debian.org/cdimage/unofficial/non-free/images-including-firmware/archive/9.4.0-live+nonfree/amd64/iso-hybrid/debian-live-9.4.0-amd64-cinnamon+nonfree.iso
+    * The specific download we use is: https://cdimage.debian.org/cdimage/unofficial/non-free/images-including-firmware/archive/9.4.0-live+nonfree/amd64/iso-hybrid/debian-live-9.4.0-amd64-cinnamon+nonfree.iso
 
 ## Installation
 
