@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cd ~/te-release
+cd ~/btt-exchanger
 sudo docker-compose stop

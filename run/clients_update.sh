@@ -1,10 +1,10 @@
 #!/bin/bash
 
-cd /home/$USER/te-release
+cd /home/$USER/btt-exchanger
 
 echo -e "${COLOR}----------| Downloading clients |----------${NC}"
 
-URL=$(curl 'https://api.github.com/repos/wycliffeassociates/te-release/releases?per_page=1' | jq -r '.[0] | .assets[].browser_download_url')
+URL=$(curl 'https://api.github.com/repos/bible-translation-tools/btt-exchanger/releases?per_page=1' | jq -r '.[0] | .assets[].browser_download_url')
 curl -L $URL --output clients.zip
 rm -r clients/
 unzip clients.zip

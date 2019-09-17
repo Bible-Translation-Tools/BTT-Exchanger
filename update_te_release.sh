@@ -6,6 +6,6 @@
 git checkout .
 git pull
 
-echo -e "**********| Te-Release Updated |**********"
+echo -e "**********| BTT Exchanger Updated |**********"
 sleep 5
 

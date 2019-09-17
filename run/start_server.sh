@@ -2,5 +2,5 @@
 
 ./stop_server.sh
 ./disable_network.sh
-cd ~/te-release
+cd ~/btt-exchanger
 sudo docker-compose up -d

@@ -30,14 +30,14 @@ sudo pip install docker-compose
 
 echo -e "${COLOR}----------| Inserting crontab task... |----------${NC}"
 
-sudo chmod -R +x /home/ott/te-release/scripts
-sudo cp /home/$USER/te-release/cron_netsvc_and_dockerup /etc/cron.d/cron_netsvc_and_dockerup
+sudo chmod -R +x /home/$USER/btt-exchanger/scripts
+sudo cp /home/$USER/btt-exchanger/cron_netsvc_and_dockerup /etc/cron.d/cron_netsvc_and_dockerup
 
-cd /home/$USER/te-release
+cd /home/$USER/btt-exchanger
 
 echo -e "${COLOR}----------| Downloading clients |----------${NC}"
 
-URL=$(curl 'https://api.github.com/repos/wycliffeassociates/te-release/releases?per_page=1' | jq -r '.[0] | .assets[].browser_download_url')
+URL=$(curl 'https://api.github.com/repos/bible-translation-tools/btt-exchanger/releases?per_page=1' | jq -r '.[0] | .assets[].browser_download_url')
 curl -L $URL --output clients.zip
 rm -rf clients/
 unzip clients.zip
@@ -59,7 +59,7 @@ URL=$(curl 'https://api.github.com/repos/wycliffeassociates/trconverterandroid/r
 curl -L $URL -O
 URL=$(curl 'https://api.github.com/repos/wycliffeassociates/teadminandroid/releases?per_page=1' | jq -r '.[0] | .assets[].browser_download_url')
 curl -L $URL -O
-cd /home/$USER/te-release
+cd /home/$USER/btt-exchanger
 
 sudo -- sh -c -e "echo '10.0.0.1	opentranslationtools.org' >> /etc/hosts"
 

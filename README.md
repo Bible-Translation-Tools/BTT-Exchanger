@@ -1,4 +1,4 @@
-# te-release
+# BTT-Exchanger
 Installation files and scripts for Translation Exchange.
 
 ## Pre-reqs
@@ -11,14 +11,14 @@ Installation files and scripts for Translation Exchange.
 ## Installation
 
 1. Download the zip file from releases in this repo
-1. Extract the archive into `~/te-release` so that the files and directories such as `install.sh` script are located in `/home/ott/te-release`
+1. Extract the archive into `~/btt-exchanger` so that the files and directories such as `install.sh` script are located in `/home/ott/btt-exchanger`
 1. Execute the install.sh script with something like `./install.sh`
 1. You may need to run something like `chmod +x install.sh` to enable execution on the script
 
 or
 
-1. Clone this repo into ~/te-release with something like `git clone https://github.com/wycliffeassociates/te-release /home/ott/te-release`
-1. Open a terminal in `/home/ott/te-release`
+1. Clone this repo into ~/btt-exchanger with something like `git clone https://github.com/bible-translation-tools/btt-exchanger /home/ott/btt-exchanger`
+1. Open a terminal in `/home/ott/btt-exchanger`
 1. execute the install.sh script with something like `./install.sh`
 
 

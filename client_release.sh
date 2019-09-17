@@ -11,9 +11,9 @@ if [ -z $1 ]; then exit
 fi
 
 export GOPATH=$(pwd)
-export GITHUB_USER=WycliffeAssociates
+export GITHUB_USER=Bible-Translation-Tools
 export GITHUB_TOKEN=$1
-export GITHUB_REPO=te-release
+export GITHUB_REPO=BTT-Exchanger
 export PATH=$PATH:$GOPATH/bin
 
 #Get the latest tag
@@ -25,7 +25,7 @@ fi
 
 #Check if there is a release for the latest tag
 #Exit if a release already exists
-DOES_RELEASE_EXIST=$(curl -s https://api.github.com/repos/wycliffeassociates/te-release/releases/tags/$TAG | grep '"message": "Not Found"')
+DOES_RELEASE_EXIST=$(curl -s https://api.github.com/repos/bible-translation-tools/btt-exchanger/releases/tags/$TAG | grep '"message": "Not Found"')
 if [ -z "$DOES_RELEASE_EXIST" ]; then exit;
 fi
 
