@@ -20,6 +20,16 @@ if [[ $(grep -c "^$USER:" /etc/passwd) = 0 ]]; then
 	exit 1
 fi
 
+echo "${COLOR}----------| Do you wish to run a Wifi Access Point from this server? |----------${NC}"
+echo "${COLOR}----------| Type '1' and hit enter to enable this server to run a Wifi Access Point |----------${NC}"
+echo "${COLOR}----------| Type '2' and hit enter if you plan to run an external Wifi Access Point (e.g. TP-Link) |----------${NC}"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) exit;;
+        No ) mv docker-compose.yaml docker-compose-ap.yaml && mv docker-compose-noap.yaml docker-compose.yaml && exit;;
+    esac
+done
+
 echo -e "${COLOR}----------| Installing neccessary software for the server... |----------${NC}"
 
 sudo apt update && sudo apt install -y curl python-pip apt-transport-https ca-certificates software-properties-common jq
