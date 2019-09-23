@@ -20,9 +20,9 @@ if [[ $(grep -c "^$USER:" /etc/passwd) = 0 ]]; then
 	exit 1
 fi
 
-echo -e "${COLOR}----------| Do you wish to run a Wifi Access Point from this server? |----------${NC}"
-echo -e "${COLOR}----------| Type '1' and hit enter to enable this server to run a Wifi Access Point |----------${NC}"
-echo -e "${COLOR}----------| Type '2' and hit enter if you plan to run an external Wifi Access Point (e.g. TP-Link) |----------${NC}"
+echo -e "${COLOR}Do you wish to run a Wifi Access Point from this server?${NC}"
+echo -e "${COLOR}Type '1' and hit enter to enable this server to run a Wifi Access Point${NC}"
+echo -e "${COLOR}Type '2' and hit enter if you plan to run an external Wifi Access Point (e.g. TP-Link)${NC}"
 select yn in "Yes" "No"; do
     case $yn in
         Yes ) break;;
@@ -76,6 +76,7 @@ sudo -- sh -c -e "echo '10.0.0.1	opentranslationtools.org' >> /etc/hosts"
 echo -e "${COLOR}----------| Pulling Docker Images... |----------${NC}"
 sudo docker-compose pull
 
-echo -e "${COLOR}**********| Installation complete. Rebooting... |**********${NC}"
+clear
+read -n 1 -s -r -p "${COLOR}Installation complete. Please unplug network cable then press Enter to reboot.${NC}"
 sleep 3
 sudo systemctl reboot
