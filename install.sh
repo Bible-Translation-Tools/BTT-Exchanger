@@ -20,9 +20,9 @@ if [[ $(grep -c "^$USER:" /etc/passwd) = 0 ]]; then
 	exit 1
 fi
 
-echo -e "${COLOR}Do you wish to run a Wifi Access Point from this server?${NC}"
-echo -e "${COLOR}Type '1' and hit enter to enable this server to run a Wifi Access Point${NC}"
-echo -e "${COLOR}Type '2' and hit enter if you plan to run an external Wifi Access Point (e.g. TP-Link)${NC}"
+echo -e "Do you wish to run a Wifi Access Point from this server?"
+echo -e "Type '1' and hit enter to enable this server to run a Wifi Access Point"
+echo -e "Type '2' and hit enter if you plan to run an external Wifi Access Point (e.g. TP-Link)"
 select yn in "Yes" "No"; do
     case $yn in
         Yes ) export YESAP=1 && break;;
