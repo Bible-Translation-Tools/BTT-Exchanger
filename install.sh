@@ -25,7 +25,7 @@ echo -e "${COLOR}Type '1' and hit enter to enable this server to run a Wifi Acce
 echo -e "${COLOR}Type '2' and hit enter if you plan to run an external Wifi Access Point (e.g. TP-Link)${NC}"
 select yn in "Yes" "No"; do
     case $yn in
-        Yes ) break;;
+        Yes ) export YESAP=1 && break;;
         No ) mv docker-compose.yaml docker-compose-ap.yaml && mv docker-compose-noap.yaml docker-compose.yaml && break;;
     esac
 done
@@ -77,6 +77,5 @@ echo -e "${COLOR}----------| Pulling Docker Images... |----------${NC}"
 sudo docker-compose pull
 
 clear
-read -n 1 -s -r -p "${COLOR}Installation complete. Please unplug network cable then press Enter to reboot.${NC}"
-sleep 3
-sudo systemctl reboot
+if [ ! -z "$var" ]; then read -n 1 -s -r -p "Installation complete. press Enter to reboot" && sleep 1 && sudo systemctl reboot; fi
+if [ -z "$var" ]; then read -n 1 -s -r -p "Installation complete. Please unplug network cable then press Enter to reboot" && sleep 1 && sudo systemctl reboot; fi
