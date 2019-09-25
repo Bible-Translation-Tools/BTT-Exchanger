@@ -8,6 +8,7 @@ Installation files and scripts for BTT Exchanger.
     * The specific download we use is: https://cdimage.debian.org/cdimage/unofficial/non-free/images-including-firmware/archive/9.4.0-live+nonfree/amd64/iso-hybrid/debian-live-9.4.0-amd64-cinnamon+nonfree.iso
     * `ott` user needs sudoers priveledge. On install of Debian you can leave the root password blank and have the `ott` user automatically added to sudoers, or you can give the root user a password and add `ott` to sudoers yourself.
     * Wifi drivers need to be installed. This can be done in the install process if using Debian non-free.
+- Amazon Idea list with recommended hardware: http://a.co/4Phho2K
 
 ## Installation
 
