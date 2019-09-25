@@ -1,2 +1,1 @@
-@reboot root cd /home/ott/btt-exchanger && sudo docker-compose down && sudo docker-compose up | tee /home/ott/btt-exchanger/te.log
-
+@reboot root systemctl stop NetworkManager.service && systemctl disable NetworkManager.service && cd /home/ott/btt-exchanger && sudo docker-compose down && sudo docker-compose up | tee /home/ott/btt-exchanger/te.log
