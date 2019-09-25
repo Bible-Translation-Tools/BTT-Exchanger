@@ -41,7 +41,8 @@ sudo pip install docker-compose
 echo -e "${COLOR}----------| Inserting crontab task... |----------${NC}"
 
 sudo chmod -R +x /home/$USER/btt-exchanger/scripts
-sudo cp /home/$USER/btt-exchanger/cron_netsvc_and_dockerup /etc/cron.d/cron_netsvc_and_dockerup
+if [ -z "$YESAP" ]; then sudo cp /home/$USER/btt-exchanger/cron_dockerup /etc/cron.d/cron_dockerup; fi
+if [ "$YESAP" == "1" ]; then sudo cp /home/$USER/btt-exchanger/cron_netsvc_and_dockerup /etc/cron.d/cron_netsvc_and_dockerup; fi
 
 cd /home/$USER/btt-exchanger
 
