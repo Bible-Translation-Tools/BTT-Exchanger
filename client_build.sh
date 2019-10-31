@@ -31,6 +31,7 @@ cp -r ./build ../translationExchangeAndroid/app/src/main/assets/
 cd ../translationExchangeAndroid
 
 docker run --rm -i \
+--user $(id -u):$(id -g) \
 -v ${PWD}:/project \
 -v $TR_KEY:/key/translationRecorderKey.jks \
 runmymind/docker-android-sdk:ubuntu-standalone \
