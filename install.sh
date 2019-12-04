@@ -20,15 +20,29 @@ if [[ $(grep -c "^$USER:" /etc/passwd) = 0 ]]; then
 	exit 1
 fi
 
-echo -e "Do you wish to run a Wifi Access Point from this server?"
-echo -e "Type '1' and hit enter to enable this server to run a Wifi Access Point"
-echo -e "Type '2' and hit enter if you plan to run an external Wifi Access Point (e.g. TP-Link)"
-select yn in "Yes" "No"; do
-    case $yn in
-        Yes ) export YESAP=1 && break;;
-        No ) mv docker-compose.yaml docker-compose-ap.yaml && mv docker-compose-noap.yaml docker-compose.yaml && break;;
-    esac
-done
+HEIGHT=10
+WIDTH=70
+CHOICE_HEIGHT=3
+TITLE="Access Point"
+MENU="Choose one of the following options:"
+
+OPTIONS=("1" "Run a Wifi Access Point on the server hardware"
+         "2" "Run an external access point (e.g. TP-Link TL-WR802N)")
+
+CHOICE=$(whiptail --title "$TITLE" \
+                --menu "$MENU" \
+                $HEIGHT $WIDTH $CHOICE_HEIGHT \
+                "${OPTIONS[@]}" \
+                3>&1 1>&2 2>&3)
+
+case $CHOICE in
+        1)
+            export YESAP=1
+            ;;
+        2)
+            mv docker-compose.yaml docker-compose-ap.yaml && mv docker-compose-noap.yaml docker-compose.yaml
+            ;;
+esac
 
 echo -e "${COLOR}----------| Installing neccessary software for the server... |----------${NC}"
 
