@@ -1,1 +1,1 @@
-@reboot root sudo docker-compose -f /home/ott/btt-exchanger/docker-compose-ext-ap.yaml down && sudo docker-compose -f /home/ott/btt-exchanger/docker-compose-ext-ap.yamlup | tee /home/ott/btt-exchanger/te.log
+@reboot root sudo docker-compose -f /home/ott/btt-exchanger/docker-compose-ext-ap.yaml down && sudo docker-compose -f /home/ott/btt-exchanger/docker-compose-ext-ap.yaml up | tee /home/ott/btt-exchanger/te.log
