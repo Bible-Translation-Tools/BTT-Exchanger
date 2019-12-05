@@ -87,7 +87,7 @@ sudo -- sh -c -e "echo '10.0.0.1	opentranslationtools.org' >> /etc/hosts"
 
 echo -e "${COLOR}----------| Pulling Docker Images... |----------${NC}"
 
-sudo docker-compose pull
+sudo docker-compose -f docker-compose-ext-ap.yaml -f docker-compose-server-ap.yaml pull
 
 clear
 if [ $CHOICE == 1 ]; then read -n 1 -s -r -p "Installation complete. press Enter to reboot" && sleep 1 && sudo systemctl reboot; fi
