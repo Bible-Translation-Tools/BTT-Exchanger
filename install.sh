@@ -20,6 +20,8 @@ if [[ $(grep -c "^$USER:" /etc/passwd) = 0 ]]; then
 	exit 1
 fi
 
+cd /home/$USER/btt-exchanger
+
 HEIGHT=10
 WIDTH=70
 CHOICE_HEIGHT=3
@@ -37,10 +39,10 @@ CHOICE=$(whiptail --title "$TITLE" \
 
 case $CHOICE in
         1)
-            export YESAP=1
+            sudo cp /home/$USER/btt-exchanger/cron_dockerup_server_ap /etc/cron.d/cron_dockerup_server_ap
             ;;
         2)
-            mv docker-compose.yaml docker-compose-ap.yaml && mv docker-compose-noap.yaml docker-compose.yaml
+            sudo cp /home/$USER/btt-exchanger/cron_dockerup_external_ap /etc/cron.d/cron_dockerup_external_ap
             ;;
 esac
 
@@ -51,14 +53,7 @@ curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
 sudo apt update && sudo apt install -y docker-ce
 sudo pip install docker-compose
-
-echo -e "${COLOR}----------| Inserting crontab task... |----------${NC}"
-
 sudo chmod -R +x /home/$USER/btt-exchanger/scripts
-if [ -z "$YESAP" ]; then sudo cp /home/$USER/btt-exchanger/cron_dockerup /etc/cron.d/cron_dockerup; fi
-if [ ! -z "$YESAP" ]; then sudo cp /home/$USER/btt-exchanger/cron_netsvc_and_dockerup /etc/cron.d/cron_netsvc_and_dockerup; fi
-
-cd /home/$USER/btt-exchanger
 
 echo -e "${COLOR}----------| Downloading clients |----------${NC}"
 
@@ -68,10 +63,12 @@ rm -rf clients/
 unzip clients.zip
 
 echo -e "${COLOR}----------| Downloading TranslationRecorder|----------${NC}"
+
 URL=$(curl 'https://api.github.com/repos/wycliffeassociates/translationrecorder/releases?per_page=1' | jq -r '.[0] | .assets[].browser_download_url')
 curl -L $URL --output clients/translationRecorder.apk
 
 echo -e "${COLOR}----------| Downloading AdminTools into admintools dir |----------${NC}"
+
 rm -rf admintools/
 mkdir admintools
 cd admintools
@@ -89,8 +86,9 @@ cd /home/$USER/btt-exchanger
 sudo -- sh -c -e "echo '10.0.0.1	opentranslationtools.org' >> /etc/hosts"
 
 echo -e "${COLOR}----------| Pulling Docker Images... |----------${NC}"
+
 sudo docker-compose pull
 
 clear
-if [ ! -z "$var" ]; then read -n 1 -s -r -p "Installation complete. press Enter to reboot" && sleep 1 && sudo systemctl reboot; fi
-if [ -z "$var" ]; then read -n 1 -s -r -p "Installation complete. Please unplug network cable then press Enter to reboot" && sleep 1 && sudo systemctl reboot; fi
+if [ $CHOICE == 1 ]; then read -n 1 -s -r -p "Installation complete. press Enter to reboot" && sleep 1 && sudo systemctl reboot; fi
+if [ $CHOICE == 2 ]; then read -n 1 -s -r -p "Installation complete. Please unplug network cable then press Enter to reboot" && sleep 1 && sudo systemctl reboot; fi
