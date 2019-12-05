@@ -2,7 +2,7 @@ version: '3.2'
 
 services:
   db:
-    image: postgres
+    image: postgres:12
     container_name: ps01
     restart: on-failure
     volumes:
