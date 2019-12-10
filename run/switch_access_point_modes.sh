@@ -3,8 +3,8 @@
 set -e
 
 #make sure all the containers are removed
-sudo docker-compose -f /home/ott/btt-echanger/docker-compose-ext-ap.yaml down
-sudo docker-compose -f /home/ott/btt-echanger/docker-compose-server-ap.yaml down
+sudo docker-compose -f /home/ott/btt-exchanger/docker-compose-ext-ap.yaml down
+sudo docker-compose -f /home/ott/btt-exchanger/docker-compose-server-ap.yaml down
 
 HEIGHT=10
 WIDTH=70
