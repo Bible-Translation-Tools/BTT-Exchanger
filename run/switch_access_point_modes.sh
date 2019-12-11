@@ -2,6 +2,8 @@
 
 set -e
 
+sudo echo "."
+
 HEIGHT=10
 WIDTH=70
 CHOICE_HEIGHT=3
@@ -17,6 +19,8 @@ CHOICE=$(whiptail --title "$TITLE" \
                 "${OPTIONS[@]}" \
                 3>&1 1>&2 2>&3)
 
+clear
+
 case $CHOICE in
         #Server AP
         1)
@@ -31,7 +35,7 @@ case $CHOICE in
                 sudo rm /etc/cron.d/cron_dockerup_external_ap && sudo cp /home/ott/btt-exchanger/cron_dockerup_server_ap /etc/cron.d/cron_dockerup_server_ap
             #If only the Server AP file is present, tell the user it's already in the selected AP operating mode
             elif [ -f /etc/cron.d/cron_dockerup_server_ap ] && [ ! -f /etc/cron.d/cron_dockerup_external_ap ]; then
-                clear && read -n 1 -s -r -p "The server is already configured to run an AP on the server hardware. Press Enter to exit this script" && sleep 1 && exit
+                clear && whiptail --msgbox "The server is already configured to run an AP on the server hardware. Press Enter to exit this script" $HEIGHT $WIDTH && sleep 1 && exit
             fi
             ;;
         #External AP
@@ -47,10 +51,11 @@ case $CHOICE in
                 sudo rm /etc/cron.d/cron_dockerup_server_ap && sudo cp /home/ott/btt-exchanger/cron_dockerup_external_ap /etc/cron.d/cron_dockerup_external_ap
             #If only the external AP file is present, tell the user it's already in the selected AP operating mode
             elif [ -f /etc/cron.d/cron_dockerup_external_ap ] && [ ! -f /etc/cron.d/cron_dockerup_server_ap ]; then
-                clear && read -n 1 -s -r -p "The server is already configured to run an external AP. Press Enter to exit this script" && sleep 1 && exit
+                clear && whiptail --msgbox "The server is already configured to run an external AP. Press Enter to exit this script" $HEIGHT $WIDTH && sleep 1 && exit
             fi
             sudo systemctl enable NetworkManager.service
-            read -n 1 -s -r -p "Please plug in the External Access Point then press Enter to continue"
+            clear
+            whiptail --msgbox "Please plug in the External Access Point then press Enter to continue" $HEIGHT $WIDTH
             ;;
 esac
 
