@@ -2,10 +2,6 @@
 
 set -e
 
-#make sure all the containers are removed
-sudo docker-compose -f /home/ott/btt-exchanger/docker-compose-ext-ap.yaml down
-sudo docker-compose -f /home/ott/btt-exchanger/docker-compose-server-ap.yaml down
-
 HEIGHT=10
 WIDTH=70
 CHOICE_HEIGHT=3
@@ -53,10 +49,16 @@ case $CHOICE in
             elif [ -f /etc/cron.d/cron_dockerup_external_ap ] && [ ! -f /etc/cron.d/cron_dockerup_server_ap ]; then
                 clear && read -n 1 -s -r -p "The server is already configured to run an external AP. Press Enter to exit this script" && sleep 1 && exit
             fi
+            sudo systemctl enable NetworkManager.service
+            read -n 1 -s -r -p "Please plug in the External Access Point then press Enter to continue"
             ;;
 esac
 
+#make sure all the containers are removed
+sudo docker-compose -f /home/ott/btt-exchanger/docker-compose-ext-ap.yaml down
+sudo docker-compose -f /home/ott/btt-exchanger/docker-compose-server-ap.yaml down
+
 clear
 echo "AP mode configured, rebooting now"
-sleep 5
+sleep 2
 sudo systemctl reboot
