@@ -25,12 +25,12 @@ or
 
 
 ## About the install.sh script
-- The script adds the docker repo, installs dependencies, adds a cron job to start tE, pulls the needed docker images, and eventually reboots the machine to start tE via the cron job.
+- The script adds the docker repo, installs dependencies, adds a cron job to start tE, pulls the needed docker images, and eventually reboots the machine to start BTT-Exchanger via the cron job.
 
 - There are two prompts to respond to in the install script. The first asks whether you want to install a Wifi Access Point on the server (NUC) itself or if you want to use an external Access Point like the TP-Link mentioned above. The second prompt is to unlpug the network cable for reboot. The install sets up a DHCP server, so unplugging the network cable before rebooting and starting the DHCP server is highly recommended. 
 
 ## Use
-1. After a reboot, either connect to the TP-Link Wireless Netowrk if using the TP-Link router or connect to the TranslationExchange_##### Wireless network if you are running the Wireless Access Point on the server. The setup script for using an external access point configures the DHCP and DNS servers in a way that requires the TP-Link nano router to be configured in Access Point mode. See the TP-Link documentation for how to change this config. Feel free to adjust its config such as admin password, SSID, and wireless password as well.
+1. After a reboot, either connect to the TP-Link Wireless Netowrk if using the TP-Link router or connect to the BTT_#### Wireless network if you are running the Wireless Access Point on the server. The setup script for using an external access point configures the DHCP and DNS servers in a way that requires the TP-Link nano router to be configured in Access Point mode. See the TP-Link documentation for how to change this config. Feel free to adjust its config such as admin password, SSID, and wireless password as well.
 
 1. Go to http://opentranslationtools.org to download the clients for BTT Exchanger and use the software.
 
