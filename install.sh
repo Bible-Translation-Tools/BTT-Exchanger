@@ -64,8 +64,8 @@ unzip clients.zip
 
 echo -e "${COLOR}----------| Downloading TranslationRecorder|----------${NC}"
 
-URL=$(curl 'https://api.github.com/repos/wycliffeassociates/translationrecorder/releases?per_page=1' | jq -r '.[0] | .assets[].browser_download_url')
-curl -L $URL --output clients/translationRecorder.apk
+URL=$(curl 'https://api.github.com/repos/Bible-Translation-Tools/BTT-Recorder/releases?per_page=1' | jq -r '.[0] | .assets[].browser_download_url')
+curl -L $URL --output clients/bttRecorder.apk
 
 echo -e "${COLOR}----------| Downloading AdminTools into admintools dir |----------${NC}"
 
