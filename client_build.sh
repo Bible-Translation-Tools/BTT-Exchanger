@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -e
+set -x
+
 #Make script exit if there is no env set for STORE_PASSWORD. Jenkins sets this in during CI/CD. Prevents accidental script runs
 if [ -z $STORE_PASSWORD ]; then exit
 fi
