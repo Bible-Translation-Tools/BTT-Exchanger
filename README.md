@@ -1,5 +1,13 @@
 # BTT Exchanger
-Installation files and scripts for BTT Exchanger.
+BTT Exchanger is a platform for backup, checking, collating, and exporting oral bible translation
+
+#Folders
+- `install`
+    - Contains install files, configs, scripts, docker-compose files, etc used to install Exchanger on a standalone server.
+- `web`
+    - Code and Dockerfile for the Web container image.
+- `ap`
+    - Dockerfile and config for the AP container
 
 ## Pre-reqs
 1. Intel NUC with SSD (1TB recommended)

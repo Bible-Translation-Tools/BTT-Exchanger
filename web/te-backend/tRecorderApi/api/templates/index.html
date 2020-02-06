@@ -1,0 +1,335 @@
+<head>
+    <title>Translation Recorder API</title>
+</head>
+
+<div style="width: 900px; margin: 0 auto">
+    <strong>Normal Upload:</strong>
+    <br>
+    <form action="/api/upload/file" method="post" enctype="multipart/form-data" id="upload">
+        {% csrf_token %}
+        <input type="file" name="file" id="file" />
+        <button type="submit"> Upload Zip or Tr</button>
+        <img style="display: none" id="upload_loader" src="/static/loader.gif" />
+        <span id="progress"></span>
+        <br><br>
+        <div id="upload_result" style="display: none; font-size: 18px; font-weight: bold">
+            <div>File has been uploaded. Processing started...</div>
+            <div>Task id: <span id="task_id"></span></div>
+        </div>
+        <div id="upload_error" style="display: none; font-size: 18px; font-weight: bold">
+
+        </div>
+    </form>
+
+    <!--<form action="/api/upload/tr" method="post" enctype="multipart/form-data">-->
+        <!--{% csrf_token %}-->
+        <!--<input type="file" name="upload" />-->
+        <!--<button type="submit"> Upload Tr</button>-->
+    <!--</form>-->
+    <!--
+    <form action="/api/source/tr" method="post" enctype="multipart/form-data">
+        <input type="file" name="upload" /> {% csrf_token %}
+        <input type="submit" value="Upload Source (.tr)" />
+    </form>
+    <br>
+    -->
+    <!--<div>-->
+        <!--<strong>Resumable Upload:</strong>-->
+        <!--<br>-->
+        <!--<button id="browseButton">Select file</button>-->
+        <!--<button id="pause-upload-btn">Pause</button>-->
+        <!--<span id="progr"></span>-->
+        <!--<div id="response"></div>-->
+    <!--</div>-->
+
+    {% if lasttake %}
+    <hr>
+    <div style="width: 200px; float: left">
+        <a href="/api/languages">Languages</a> <br><br>
+        <a href="/api/books">Books</a> <br><br>
+        <a href="/api/projects">Projects</a> <br><br>
+        <a href="/api/chapters">Chapters</a> <br><br>
+        <a href="/api/chunks">Chunks</a> <br><br>
+        <a href="/api/takes">Takes</a> <br><br>
+        <a href="/api/comments">Comments</a> <br><br>
+        <a href="/api/users">Users</a> <br><br>
+    </div>
+    <div style="width: 200px; float: left">
+        <a href="/api/get_project_takes">Get Project Takes</a> <br><br>
+        <a href="/api/update_project_takes">Update Project Takes</a> <br><br>
+        <a href="/api/all_projects">Show Projects</a> <br><br>
+        <a href="/api/get_chapters">Show Chapters</a><br><br>
+        <a href="/api/get_versions">Show Versions</a><br><br>
+        <a href="/api/get_langs">Show Languages</a><br><br>
+        <a href="/api/get_books">Show Books</a><br><br>
+    </div>
+    <div style="width: 200px; float: left">
+        <a href="/api/zip_files">Zip Files</a> <br><br>
+        <a href="/api/get_source">Get Source</a> <br><br>
+        <a href="/api/push_takes">Push Takes</a> <br><br>
+        <a href="/api/exclude_files">Exclude Files</a> <br><br>
+        <a href="/api/stitch_takes">Stitch Source</a> <br><br>
+    </div>
+    <div style="clear:both"></div>
+    <hr>
+
+    <div>
+        <div>{{ lasttake }}</div>
+        <audio controls>
+        <source src="/{{ lasttake.location }}" type="audio/{{filetype}}">
+        Your browser does not support the audio element.
+    </audio>
+    </div>
+    <br>
+    <hr>
+
+    <div style="width: 200px; float: left">
+        <button id="getexport">Get Zip For Export</button>
+        <img style="display: none" id="getexport_loader" src="/static/loader.gif" />
+    </div>
+    <div style="width: 200px; float: left">
+        <button id="getsource">Get Source (.tr)</button>
+        <img style="display: none" id="getsource_loader" src="/static/loader.gif" />
+    </div>
+    <div style="width: 200px; float: left">
+        <button id="getzip">Get zip</button>
+        <img style="display: none" id="getzip_loader" src="/static/loader.gif" />
+    </div>
+    <div style="clear:both"></div>
+    {% endif %}
+</div>
+
+<!-- Upload form submit -->
+<script>
+    document.getElementById("upload").addEventListener("submit", function(event) {
+        document.getElementById("upload_result").style.display = "none"
+        document.getElementById("upload_error").style.display = "none"
+        document.getElementById("upload_loader").style.display = "inline-block";
+        document.getElementById("progress").innerText = "";
+
+        var formData = new FormData();
+        formData.append("file", document.getElementById("file").files[0]);
+
+        var xmlhttp = new XMLHttpRequest(); // new HttpRequest instance
+        xmlhttp.upload.addEventListener("progress", function(evt) {
+            if (evt.lengthComputable) {
+                var percentComplete = Math.ceil((evt.loaded / evt.total) * 100);
+                document.getElementById("progress").innerText = " " + percentComplete + "%";
+            }
+        });
+        xmlhttp.responseType = "json"
+
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == XMLHttpRequest.DONE) {
+                document.getElementById("upload_loader").style.display = "none";
+
+                if (this.status === 202) {
+                    console.log(this.response)
+                    document.getElementById("upload_result").style.display = "block";
+                    document.getElementById("task_id").innerText = this.response.task_id;
+                } else if (this.status === 401) {
+                    document.getElementById("upload_error").style.display = "block";
+                    document.getElementById("upload_error").innerText = "You are not authorized";
+                } else {
+                    document.getElementById("upload_error").style.display = "block";
+                    document.getElementById("upload_error").innerText = this.response.response;
+                }
+            }
+        }
+        xmlhttp.open("POST", "/api/upload/file");
+
+        var token = localStorage.getItem("token");
+        if(token)
+            xmlhttp.setRequestHeader('Authorization','Token ' + token);
+        xmlhttp.send(formData);
+
+        event.preventDefault();
+    }, false);
+</script>
+
+{% if lasttake %}
+<script>
+    document.getElementById("getexport").addEventListener("click", function(event) {
+        document.getElementById("getexport_loader").style.display = "inline-block";
+        type = "json"
+        jspost("/api/zip_files/", {
+                "language": "en-x-demo2",
+                "version": "ulb",
+                "book": "mrk"
+            },
+            type,
+            function(response) {
+                document.getElementById("getexport_loader").style.display = "none";
+                saveData("/" + response.location, 'en-x-demo2_ulb_mrk.zip', type);
+            },
+            function(error) {
+                document.getElementById("getexport_loader").style.display = "none";
+                console.log(error);
+            })
+    }, false);
+
+    document.getElementById("getsource").addEventListener("click", function(event) {
+        document.getElementById("getsource_loader").style.display = "inline-block";
+        type = "json"
+        jspost("/api/get_source/", {
+                "language": "en-x-demo2",
+                "version": "ulb",
+                "book": "mrk"
+            },
+            type,
+            function(response) {
+                document.getElementById("getsource_loader").style.display = "none";
+                saveData("/" + response.location, 'en-x-demo2_ulb.tr', type);
+            },
+            function(error) {
+                document.getElementById("getsource_loader").style.display = "none";
+                console.log(error);
+            })
+    }, false);
+
+    document.getElementById("getzip").addEventListener("click", function(event) {
+        loader = document.getElementById("getzip_loader");
+        loader.style.display = "inline-block"
+        type = "blob"
+        jspost("/api/push_takes/", {
+                "project": {
+                    "language": "en-x-demo2",
+                    "version": "ulb",
+                    "book": "mrk"
+                },
+                "files_list": {}
+            },
+            type,
+            function(response) {
+                loader.style.display = "none";
+                saveData(response, 'en-x-demo2_ulb_mrk.zip', type);
+            },
+            function(error) {
+                loader.style.display = "none";
+                console.log(error);
+            })
+    }, false);
+
+    function jspost(url, data, type, success, error) {
+        var xmlhttp = new XMLHttpRequest(); // new HttpRequest instance
+        xmlhttp.open("POST", url);
+        xmlhttp.responseType = type
+
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == XMLHttpRequest.DONE) {
+                if (this.status === 200) {
+                    success(this.response);
+                } else {
+                    error(this.response);
+                    console.log(this.responseText);
+                }
+            }
+        }
+
+        xmlhttp.setRequestHeader("Content-Type", "application/json");
+        xmlhttp.send(JSON.stringify(data));
+    }
+
+    var saveData = (function() {
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+        return function(data, fileName, type) {
+            if (type == "blob") {
+                var blob = new Blob([data], {
+                        type: "octet/stream"
+                    }),
+                    url = window.URL.createObjectURL(blob);
+            } else {
+                url = data
+            }
+
+            a.href = url;
+            a.download = fileName;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        };
+    }());
+</script>
+{% endif %}
+
+<!--
+<script src="/static/resumable.js"></script>
+<script>
+    (function() {
+        var r = new Resumable({
+            target: '/api/resumable_upload/project/',
+            fileType: ['zip'],
+            maxFiles: 1,
+            forceChunkSize: false,
+            chunkSize: 1*1024*1024,
+            simultaneousUploads: 6
+        });
+
+        r.assignBrowse(document.getElementById('browseButton'));
+
+        document.getElementById("pause-upload-btn").addEventListener("click", function(event) {
+            if (r.files.length > 0) {
+                if (r.isUploading()) {
+                    return r.pause();
+                }
+                return r.upload();
+            }
+        }, false);
+
+        r.on('fileSuccess', function(file) {
+            //console.debug('fileSuccess', file);
+            document.getElementById("response").innerHTML = "Upload Successfull";
+        });
+        r.on('fileProgress', function(file) {
+            //console.debug('fileProgress', file);
+        });
+        r.on('fileAdded', function(file, event) {
+            //console.debug('fileAdded', event);
+            document.getElementById("response").innerHTML = ""
+            r.upload();
+        });
+        r.on('filesAdded', function(array) {
+            r.upload();
+            //console.debug('filesAdded', array);
+        });
+        r.on('fileRetry', function(file) {
+            console.debug('fileRetry', file);
+        });
+        r.on('fileError', function(file, message) {
+            //console.debug(message);
+        });
+        r.on('uploadStart', function() {
+            //console.debug('uploadStart');
+            document.getElementById("pause-upload-btn").innerHTML = "Pause"
+        });
+        r.on('complete', function() {
+            //console.debug('complete');
+            document.getElementById("pause-upload-btn").disabled = false
+            document.getElementById("progr").innerHTML = ''
+        });
+        r.on('progress', function() {
+            //console.debug('progress');
+            var progress = Math.round(this.progress()*100)
+            document.getElementById("progr").innerHTML = progress+"%"
+            // Disable pause after 99% to avoid weird behavior
+            if (progress >= 99) {
+                document.getElementById("pause-upload-btn").disabled = true
+                document.getElementById("progr").innerHTML = 'Processing file...'
+            }
+        });
+        r.on('error', function(message, file) {
+            console.debug(message);
+            response = JSON.parse(message)
+            document.getElementById("response").innerHTML = "Upload Error: " + response.error;
+        });
+        r.on('pause', function() {
+            //console.debug('pause');
+            document.getElementById("pause-upload-btn").innerHTML = "Resume"
+        });
+        r.on('cancel', function() {
+            //console.debug('cancel');
+        });
+    })();
+</script>
+-->
