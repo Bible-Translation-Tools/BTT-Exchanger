@@ -225,12 +225,13 @@ ENV/
 *.sqlite3
 *.coverage
 .idea/
+/.vscode/
+/tRecorderApi/media/
 tRecorderApi/test_log.txt
 tRecorderApi/htmlcov/
 language.json
 **/language.json
 tRecorderApi/language.json
-tRecorderApi/frontend
 tRecorderApi/api/CreateZIP.py
 tRecorderApi/media/dump/**
 tRecorderApi/sample.docx
@@ -239,7 +240,5 @@ tRecorderApi/config.py
 tRecorderApi/static/rest_framework
 tRecorderApi/static/admin
 tRecorderApi/api/migrations
-/.vscode/
-/tRecorderApi/media/
 /tRecorderApi/api/tests/test_files/
 /tRecorderApi/static/
