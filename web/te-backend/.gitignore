@@ -11,9 +11,9 @@ __pycache__/
 *.DS_Store
 
 # Mockups and designs
-tRecorderApi/frontend/build/static/media/logo.4cf3e438.png
-*.jpeg
-*.jpg
+# tRecorderApi/frontend/build/static/media/logo.4cf3e438.png
+# *.jpeg
+# *.jpg
 DB_backend_requirements.txt
 Create_Statements.txt
 
