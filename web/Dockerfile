@@ -1,5 +1,5 @@
 FROM node:8-stretch-slim as builder
-COPY ./te-backend /
+COPY ./te-backend/ /te-backend/
 WORKDIR /te-backend/tRecorderApi/frontend
 RUN npm link cross-env && npm install --production && npm run build
 

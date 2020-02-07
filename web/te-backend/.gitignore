@@ -120,9 +120,9 @@ ENV/
 *.DS_Store
 
 # Mockups and designs
-*.png
-*.jpeg
-*.jpg
+# *.png
+# *.jpeg
+# *.jpg
 DB_backend_requirements.txt
 Create_Statements.txt
 
