@@ -110,7 +110,9 @@
     "localizationFile": "Localization file",
     "upload": "Upload",
     "upload_success": "Successfully uploaded",
-    "upload_failed": "Upload failed"
+    "upload_failed": "Upload failed",
+    "downloadDefaultLocal": "Download Default Localization",
+    "downloadUserLocal": "Download User Localization"
   },
   "Ilocano": {
     "continue": "Continue",
@@ -223,7 +225,9 @@
     "localizationFile": "Localization file",
     "upload": "Upload",
     "upload_success": "Successfully uploaded",
-    "upload_failed": "Upload failed"
+    "upload_failed": "Upload failed",
+    "downloadDefaultLocal": "Download Default Localization",
+    "downloadUserLocal": "Download User Localization"
   },
   "Tagalog": {
     "continue": "Magpatuloy",
@@ -336,7 +340,9 @@
     "localizationFile": "Localization file",
     "upload": "Upload",
     "upload_success": "Successfully uploaded",
-    "upload_failed": "Upload failed"
+    "upload_failed": "Upload failed",
+    "downloadDefaultLocal": "Download Default Localization",
+    "downloadUserLocal": "Download User Localization"
   },
   "English": {
     "continue": "Continue",
@@ -450,7 +456,9 @@
     "localizationFile": "Localization file",
     "upload": "Upload",
     "upload_success": "Successfully uploaded",
-    "upload_failed": "Upload failed"
+    "upload_failed": "Upload failed",
+    "downloadDefaultLocal": "Download Default Localization",
+    "downloadUserLocal": "Download User Localization"
   },
   "Spanish": {
     "continue": "Continuar",
@@ -563,6 +571,8 @@
     "localizationFile": "Archivo de localización",
     "upload": "Subir",
     "upload_success": "Cargado correctamente",
-    "upload_failed": "Subida fallida"
+    "upload_failed": "Subida fallida",
+    "downloadDefaultLocal": "Download Default Localization",
+    "downloadUserLocal": "Download User Localization"
   }
 }
