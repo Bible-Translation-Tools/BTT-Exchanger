@@ -38,7 +38,7 @@ class LocalizationView(views.APIView):
                 with open(uploaded_file_url) as json_file:
                     localization = json.load(json_file)
                     FileUtility.save_localization_file(localization)
-                    return Response({"success": True}, status=200)
+                    return Response({"success": True, "localization": localization}, status=200)
             except Exception as e:
                 logger.error("Error: ", str(e))
 
