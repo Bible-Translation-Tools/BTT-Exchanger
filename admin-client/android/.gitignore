@@ -1,0 +1,10 @@
+*.iml
+*.zip
+/.idea
+/.gradle
+.DS_Store
+/build
+/app/build
+/out
+local.properties
+*.map

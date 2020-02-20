@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">BTT Exchanger Админ</string>
+    <string name="app_info">ver.0.2.1</string>
+    <string name="grant_permission">Вы должны предоставить права на запись файлов!</string>
+    <string name="error_occurred">Возникла ошибка.</string>
+    <string name="saved_success">Файл был успешно сохранён!</string>
+</resources>

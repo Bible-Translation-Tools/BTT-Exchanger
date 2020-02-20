@@ -29,13 +29,11 @@ DOES_RELEASE_EXIST=$(curl -s https://api.github.com/repos/bible-translation-tool
 if [ -z "$DOES_RELEASE_EXIST" ]; then exit;
 fi
 
-mkdir clients
-cp translationExchangeAndroid/app/build/outputs/apk/release/app-release.apk clients/te_android_client_$TAG.apk
-cp translationExchange/dist/*.exe clients/
-cp translationExchange/dist/*.AppImage clients/
-cp translationExchange/dist/*.zip clients/
+mv clients/app-release.apk clients/btte_android_client_$TAG.apk
 zip clients.zip ./clients/*
-cd install ; zip -r ../install.zip ./* ; cd ..
+mv admintools/app-release.apk admintools/btte_android_admin_$TAG.apk
+zip admintools.zip ./admintools/*
+
 
 #Check for the gothub Github release go package, if not there, go get it
 if [ ! -f "$GOPATH/bin/gothub" ]; then
@@ -49,3 +47,5 @@ gothub release --tag $TAG -p
 gothub upload --tag $TAG --name "clients.zip" --file ./clients.zip
 
 gothub upload --tag $TAG --name "install.zip" --file ./install.zip
+
+gothub upload --tag $TAG --name "admintools.zip" --file ./admintools.zip
