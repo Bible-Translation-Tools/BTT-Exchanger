@@ -70,7 +70,7 @@ services:
       SENTRY_REDIS_HOST: 'redis'
 
   web:
-    image: wycliffeassociates/te-base
+    image: bibletranslationtools/btte-web
     container_name: dg01
     restart: on-failure
     volumes:
@@ -89,7 +89,7 @@ services:
     entrypoint: /scripts/entrypoint-web.sh
 
   celery_worker:
-    image: wycliffeassociates/te-base
+    image: bibletranslationtools/btte-web
     restart: on-failure
     environment: 
       - C_FORCE_ROOT=true
@@ -105,7 +105,7 @@ services:
       - web
 
   flower:
-    image: wycliffeassociates/te-base
+    image: bibletranslationtools/btte-web
     volumes:
       - media:/var/www/html/tE-backend/tRecorderApi/media
       - dsn:/dsn
@@ -136,7 +136,7 @@ services:
       - web
 
   ap:
-    image: wycliffeassociates/te-ap:no-ap
+    image: bibletranslationtools/btte-no-ap
     volumes:
       - ./config/ap/dnsmasq.conf:/etc/dnsmasq.conf
     container_name: ap01
