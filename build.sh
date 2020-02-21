@@ -13,8 +13,9 @@ export USERNUM
 export ANDROID_HOME
 export BASE_DIR
 
-#make clients dir for collecting the distributables
+#make clients and admintools dir for collecting the distributables
 mkdir clients
+mkdir admintools
 
 #zip up the install folder for distribution
 cd install ; zip -r ../install.zip ./* ; cd ..
