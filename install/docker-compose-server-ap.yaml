@@ -2,7 +2,7 @@ version: '3.2'
 
 services:
   db:
-    image: postgres:12
+    image: postgres:12.1
     container_name: ps01
     restart: on-failure
     volumes:
@@ -10,6 +10,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_MULTIPLE_DATABASES="sentry"
+      - POSTGRES_HOST_AUTH_METHOD="trust"
 
   redis:
     restart: on-failure
