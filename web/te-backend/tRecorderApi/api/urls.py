@@ -20,6 +20,7 @@ router.register(r'api/exclude_files', views.ExcludeFilesViewSet)
 router.register(r'api/profiles', views.UserViewSet)
 router.register(r'api/tasks', views.TaskViewSet, base_name='tasks')
 router.register(r'api/downloads', views.DownloadsViewSet, base_name='downloads')
+router.register(r'api/downloads/(?P<admin>[^/]+)', views.DownloadsViewSet, base_name='admin')
 
 urlpatterns = [
     url(r'^(?!api).*$', views.frontend.FrontendAppView.as_view()),
