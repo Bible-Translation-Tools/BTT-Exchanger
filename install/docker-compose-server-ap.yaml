@@ -1,0 +1,158 @@
+version: '3.2'
+
+services:
+  db:
+    image: postgres:12.1
+    container_name: ps01
+    restart: on-failure
+    volumes:
+      - ./config/postgres:/docker-entrypoint-initdb.d
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_MULTIPLE_DATABASES="sentry"
+      - POSTGRES_HOST_AUTH_METHOD="trust"
+
+  redis:
+    restart: on-failure
+    image: redis
+    expose: 
+      - "6379"
+
+  sentry:
+      image: sentry
+      restart: on-failure
+      volumes:
+        - "./config/sentry/:/home/sentry/.sentry/"
+        - ./scripts:/scripts
+        - dsn:/dsn
+      ports:
+        - 9000:9000
+      stdin_open: true
+      tty: true
+      command: > 
+        bash -c "/scripts/dsn_cleanup.sh &&
+          /scripts/wait-for-it.sh -h db -p 5432 --
+          sentry upgrade --noinput &&
+          python /scripts/sentry_init.py &&
+          sentry run web"
+      environment:
+        SENTRY_SECRET_KEY: n9ym0jlvqr8n_ygpc7kxz@2joayj-d0(n!pxp*b##udbu$xiw2
+        SENTRY_DB_NAME: sentry
+        SENTRY_POSTGRES_HOST: db
+        SENTRY_REDIS_HOST: redis
+      depends_on:
+        - db
+        - redis
+
+  sentry_cron:
+    image: 'sentry'
+    restart: on-failure
+    depends_on:
+      - redis
+      - db
+    command: "sentry run cron"
+    environment:
+      SENTRY_SECRET_KEY: n9ym0jlvqr8n_ygpc7kxz@2joayj-d0(n!pxp*b##udbu$xiw2
+      SENTRY_POSTGRES_HOST: db
+      SENTRY_DB_NAME: 'sentry'
+      SENTRY_REDIS_HOST: 'redis'
+
+  sentry_worker:
+    image: 'sentry'
+    restart: on-failure
+    depends_on:
+      - redis
+      - db
+    command: "sentry run worker"
+    environment:
+      SENTRY_SECRET_KEY: n9ym0jlvqr8n_ygpc7kxz@2joayj-d0(n!pxp*b##udbu$xiw2
+      SENTRY_POSTGRES_HOST: db
+      SENTRY_DB_NAME: 'sentry'
+      SENTRY_REDIS_HOST: 'redis'
+
+  web:
+    image: bibletranslationtools/btte-web
+    container_name: dg01
+    restart: on-failure
+    volumes:
+      - media:/var/www/html/tE-backend/tRecorderApi/media
+      - ./scripts:/scripts
+      - ./config:/config
+      - dsn:/dsn
+      - tmp:/var/www/html/tE-backend/tRecorderApi/tmp
+      - ./clients:/var/www/html/tE-backend/tRecorderApi/downloads
+      - ./admintools:/var/www/html/tE-backend/tRecorderApi/admin
+    env_file: variables.env
+    depends_on:
+      - db
+      - sentry
+    expose:
+      - "8000"
+    entrypoint: /scripts/entrypoint-web.sh
+
+  celery_worker:
+    image: bibletranslationtools/btte-web
+    restart: on-failure
+    environment: 
+      - C_FORCE_ROOT=true
+    volumes:
+      - media:/var/www/html/tE-backend/tRecorderApi/media
+      - ./scripts:/scripts
+      - dsn:/dsn
+      - tmp:/var/www/html/tE-backend/tRecorderApi/tmp
+    command: bash -c "/scripts/wait-for-it.sh -h web -p 8000 -- celery -A tRecorderApi worker -l error -Ofair -c1"
+    env_file: variables.env
+    depends_on:
+      - redis
+      - web
+
+  flower:
+    image: bibletranslationtools/btte-web
+    volumes:
+      - media:/var/www/html/tE-backend/tRecorderApi/media
+      - dsn:/dsn
+      - tmp:/var/www/html/tE-backend/tRecorderApi/tmp
+    command: bash -c "celery flower -A tRecorderApi --port=5555"
+    ports:
+      - "5555:5555"
+    env_file: variables.env
+    depends_on:
+      - redis
+      - web
+
+  nginx:
+    image: nginx
+    restart: on-failure
+    container_name: ng01
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - media:/var/www/html/tE-backend/tRecorderApi/media
+      - ./config/nginx:/etc/nginx/conf.d
+      - ./config:/etc/ssl
+      - ./config:/etc/nginx/snippets
+      - tmp:/var/www/html/tE-backend/tRecorderApi/tmp
+      - ./clients:/var/www/html/tE-backend/tRecorderApi/downloads
+    depends_on:
+      - web
+
+  ap:
+    image: bibletranslationtools/btte-ap
+    volumes:
+      - ./config/ap/dnsmasq.conf:/etc/dnsmasq.conf
+      - ./config/ap/hostapd.conf:/etc/hostapd/hostapd.conf
+      - config_flag:/config_flag
+    container_name: ap01
+    network_mode: host
+    privileged: true
+    stop_signal: SIGTERM
+    depends_on: 
+      - nginx
+
+volumes:
+  postgres_data:
+  media:
+  dsn:
+  config_flag:
+  tmp:
