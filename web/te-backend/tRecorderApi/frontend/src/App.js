@@ -65,6 +65,7 @@ class App extends Component {
           <Route exact path = "/users/registration" component={CreateUserContainer} />
           <Route path = "/welcome" component={Welcome} />
           <Route path = "/download" component={DownloadPage} />
+          <Route path = "/download-admin" component={DownloadPage} />
           <Route path = "/settings" component={SettingsPage} />
           <Route path = "/projects" component={ProjectsPage} />
           <Route path = "/chapters" component={ChapterPage} />

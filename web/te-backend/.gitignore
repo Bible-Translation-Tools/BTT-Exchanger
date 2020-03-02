@@ -133,6 +133,7 @@ build/
 develop-eggs/
 dist/
 downloads/
+admin/
 eggs/
 .eggs/
 #lib/

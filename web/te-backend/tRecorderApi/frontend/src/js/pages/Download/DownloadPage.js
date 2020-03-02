@@ -5,6 +5,7 @@ import {getDownloads} from '../../actions';
 import styled from 'styled-components';
 import DownloadLink from './components/DownloadLink';
 import Loading from '../../components/Loading';
+import { useParams } from 'react-router-dom';
 
 
 export class Download extends Component {
@@ -47,7 +48,8 @@ export class Download extends Component {
 
   componentWillMount() {
     const {getDownloads} = this.props;
-    getDownloads();
+    const {path} = this.props.match;
+    getDownloads(path.indexOf("download-admin") > -1);
   }
 
   render() {

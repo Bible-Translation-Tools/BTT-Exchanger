@@ -9,7 +9,12 @@ import os
 
 class DownloadsViewSet(viewsets.ViewSet):
     serializer_class = DownloadsSerializer
-    directory = "downloads"
+    downloads_directory = "downloads"
+    admin_directory = "admin"
+    directory = downloads_directory
+
+    def _set_directory(self, is_admin):
+        self.directory = self.admin_directory if is_admin else self.downloads_directory
 
     def _get_abs_virtual_root(self):
         return self._eventual_path(self.directory)
@@ -39,7 +44,9 @@ class DownloadsViewSet(viewsets.ViewSet):
             instance=files, many=True)
         return Response(serializer.data)
         
-    def list(self, request):
+    def list(self, request, admin = ""):
+        is_admin = True if admin == "admin" else False
+        self._set_directory(is_admin)
         virtual_root = self._get_abs_virtual_root()
     
         if not self._inside_virtual_root(virtual_root):

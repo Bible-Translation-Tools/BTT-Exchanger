@@ -1,11 +1,12 @@
 import axios from 'axios';
 import config from '../../config/config';
 
-export const getDownloads = () => {
+export const getDownloads = (isAdmin) => {
   return function(dispatch) {
     dispatch(dispatchDownloadsLoading());
+    var admin = isAdmin ? "admin" : "";
     return axios
-      .get(`${config.apiUrl}downloads/`)
+      .get(`${config.apiUrl}downloads/`+admin)
       .then(response => {
         dispatch(dispatchDownloadsReceived(response.data));
       })

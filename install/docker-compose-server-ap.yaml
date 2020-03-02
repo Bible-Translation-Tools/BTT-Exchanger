@@ -81,6 +81,7 @@ services:
       - dsn:/dsn
       - tmp:/var/www/html/tE-backend/tRecorderApi/tmp
       - ./clients:/var/www/html/tE-backend/tRecorderApi/downloads
+      - ./admintools:/var/www/html/tE-backend/tRecorderApi/admin
     env_file: variables.env
     depends_on:
       - db
