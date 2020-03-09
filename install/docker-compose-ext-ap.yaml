@@ -134,6 +134,7 @@ services:
       - ./config:/etc/nginx/snippets
       - tmp:/var/www/html/tE-backend/tRecorderApi/tmp
       - ./clients:/var/www/html/tE-backend/tRecorderApi/downloads
+      - ./admintools:/var/www/html/tE-backend/tRecorderApi/admin
     depends_on:
       - web
 
