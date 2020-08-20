@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BTT Exchanger Admin</string>
+    <string name="app_info">v.1.2.1</string>
+    <string name="grant_permission">Bạn phải cấp quyền ghi!</string>
+    <string name="error_occurred">Đã xảy ra lỗi.</string>
+    <string name="saved_success">File lưu thành công!</string>
+</resources>
