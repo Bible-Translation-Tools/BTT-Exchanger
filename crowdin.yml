@@ -1,6 +1,6 @@
 files:
-  - source: admin-client/android/app/src/main/res/values/strings.xml
+  - source: /admin-client/android/app/src/main/res/values/strings.xml
     translation: >-
-      admin-client/android/app/src/main/res/values-%two_letters_code%/strings.xml
-  - source: android-client/app/src/main/res/values/strings.xml
-    translation: android-client/app/src/main/res/values-%two_letters_code%/strings.xml
+      /admin-client/android/app/src/main/res/values-%two_letters_code%/strings.xml
+  - source: /android-client/app/src/main/res/values/strings.xml
+    translation: /android-client/app/src/main/res/values-%two_letters_code%/strings.xml
