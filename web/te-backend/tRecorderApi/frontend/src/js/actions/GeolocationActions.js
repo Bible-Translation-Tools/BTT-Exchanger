@@ -2,11 +2,11 @@ import { UPDATE_LANGUAGE, IMPORT_LOCALIZATION } from '../reduxConstants';
 import axios from 'axios';
 import config from '../../config/config';
 
-export const fetchLocalization = () => {
+export const fetchLocalization = (lang) => {
   return function(dispatch) {
     dispatch(dispatchLocalizationFetching());
     return axios
-      .get(`${config.apiUrl}localization/`)
+      .get(`${config.apiUrl}localization/?lang=${lang}`)
       .then(response => {
         dispatch(dispatchLocalizationReceived(response.data));
         const storedLanguage = localStorage.getItem('language');
@@ -24,7 +24,6 @@ export const updateLanguage = (updatelanguage) => {
   return {
     type: UPDATE_LANGUAGE,
     updatelanguage,
-
   };
 };
 

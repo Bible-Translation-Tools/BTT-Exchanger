@@ -7,14 +7,15 @@ import {onLoginSuccess, fetchUsers, createSocialUser, updateLanguage, fetchLocal
 import Menu, { Item as MenuItem } from 'rc-menu';
 import Dropdown from 'rc-dropdown';
 import 'rc-dropdown/assets/index.css';
-import Languages from '../../../languages/textToDisplay.json';
 
 
 export class Welcome extends React.Component {
 
   componentWillMount() {
     const { fetchLocalization } = this.props;
-    fetchLocalization();
+    
+    const lang = localStorage.getItem('language') || 'en';
+    fetchLocalization(lang);
 
     if(localStorage.getItem('token') != null) {
       this.props.history.push ({
@@ -24,9 +25,11 @@ export class Welcome extends React.Component {
   }
 
   onSelect({key}) {
+    const { fetchLocalization } = this.props;
+
     const language = key;
-    this.props.updateLanguage(language);
     localStorage.setItem('language', language);
+    fetchLocalization(language);
   }
 
   onSettingsClick() {
@@ -39,16 +42,16 @@ export class Welcome extends React.Component {
   render() {
     const {localization} = this.props;
     
-    let langs = Languages
+    let languages = {}
 
     if(localization != undefined) {
-      langs = localization;
+      languages = localization.languages;
     }
     
     const menu = (
       <Menu onSelect={ ky=> this.onSelect(ky)}>
-        {Object.keys(langs).map(lng => 
-          <MenuItem style={{cursor: 'pointer', color: '#fff', backgroundColor: '#000' }} key={lng}>
+        {Object.entries(languages).map(([code, lng]) => 
+          <MenuItem style={{cursor: 'pointer', color: '#fff', backgroundColor: '#000' }} key={code}>
              {lng} 
           </MenuItem> 
         )}
