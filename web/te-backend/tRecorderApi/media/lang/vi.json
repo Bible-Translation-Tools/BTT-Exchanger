@@ -107,10 +107,7 @@
     "anthology": "Tuyển tập",
     "sourceLanguage": "Ngôn ngữ gốc",
     "projectDetails": "Thông tin Dự án",
-    "localizationFile": "File dịch thuật bản địa",
     "upload": "Tải lên",
     "upload_success": "Tải lên thành công",
-    "upload_failed": "Tải lên thất bại",
-    "downloadDefaultLocal": "Tải xuống Vị trí mặc định",
-    "downloadUserLocal": "Tải xuống dịch thuật bản địa của người dùng"
+    "upload_failed": "Tải lên thất bại"
 }

@@ -106,10 +106,7 @@
     "anthology": "Antología",
     "sourceLanguage": "Lenguaje fuente",
     "projectDetails": "Detalles del proyecto",
-    "localizationFile": "Archivo de localización",
     "upload": "Subir",
     "upload_success": "Cargado correctamente",
-    "upload_failed": "Subida fallida",
-    "downloadDefaultLocal": "Download Default Localization",
-    "downloadUserLocal": "Download User Localization"
+    "upload_failed": "Subida fallida"
 }

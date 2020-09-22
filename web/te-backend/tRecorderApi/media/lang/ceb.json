@@ -94,22 +94,5 @@
     "downloadClients": "I-Download ang client apps",
     "settings": "Setting",
     "restoreDefaults": "Iuli ang mga default",
-    "save": "Luwasa",
-    "users": "Users",
-    "deleteConfirm": "Are you sure you want to delete this item? This cannot be undone!",
-    "delete": "Delete",
-    "info": "Details",
-    "book": "Book",
-    "language": "Language",
-    "version": "Version",
-    "mode": "Mode",
-    "anthology": "Anthology",
-    "sourceLanguage": "Src. Language",
-    "projectDetails": "Project Details",
-    "localizationFile": "Localization file",
-    "upload": "Upload",
-    "upload_success": "Successfully uploaded",
-    "upload_failed": "Upload failed",
-    "downloadDefaultLocal": "Download Default Localization",
-    "downloadUserLocal": "Download User Localization"
+    "save": "Luwasa"
 }
