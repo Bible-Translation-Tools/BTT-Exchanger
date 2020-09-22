@@ -26,22 +26,34 @@ class LocalizationView(views.APIView):
             return Response({"error": "bad_or_not_exist_json"}, status=400)
 
     def post(self, request, filename):
+        lang_code = request.data["langCode"] if "langCode" in request.data else None
+        lang_name = request.data["langName"] if "langName" in request.data else None
+        file = request.data["file"] if "file" in request.data else None
 
-        if request.data["file"]:
+        response = {"success": False}
 
-            uploaded_file = request.data["file"]
+        if lang_code == 'en':
+            response["error"] = "not_allowed"
+            return Response(response, status=400)
 
+        if lang_code is not None and lang_code != "" and file is not None:
             fs = FileSystemStorage()
             uuid_name = str(time.time()) + str(uuid.uuid4())
-            uploaded_file = fs.save("tmp/" + uuid_name, uploaded_file)
+            uploaded_file = fs.save("tmp/" + uuid_name, file)
             uploaded_file_url = fs.url(uploaded_file)
 
             try:
                 with open(uploaded_file_url) as json_file:
-                    localization = json.load(json_file)
-                    FileUtility.save_localization_file(localization)
-                    return Response({"success": True, "localization": localization}, status=200)
+                    translation = json.load(json_file)
+                    localization = FileUtility.save_localization_file(lang_code, lang_name, translation)
+
+                    response["success"] = True
+                    response["localization"] = localization
+                    return Response(response, status=200)
             except Exception as e:
                 logger.error("Error: ", str(e))
+                response["error"] = str(e)
+        else:
+            response["error"] = "invalid_params"
 
-            return Response({"success": False}, status=400)
+        return Response(response, status=400)

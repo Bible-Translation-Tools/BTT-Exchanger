@@ -1,22 +1,22 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
-import { importLocalization } from '../../actions';
+import { importLocalization, downloadLocalization } from '../../actions';
 import {bindActionCreators} from 'redux';
-import Localization from '../../../languages/textToDisplay.json';
 
 export class SettingsPage extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      serverName: localStorage.getItem("uploadServer") || "opentranslationtools.org"
+      serverName: localStorage.getItem("uploadServer") || "opentranslationtools.org",
+      langCode: '',
+      langName: '',
+      localizationFile: ''
     };
 
     this.onServerNameChange = this.onServerNameChange.bind(this);
-    this.onLocalizationChange = this.onLocalizationChange.bind(this);
-    this.onDefaultLocalizationDownload = this.onDefaultLocalizationDownload.bind(this);
-    this.onUserLocalizationDownload = this.onUserLocalizationDownload.bind(this);
+    this.onLocalizationSelect = this.onLocalizationSelect.bind(this);
   }
 
   componentWillMount() {
@@ -27,38 +27,39 @@ export class SettingsPage extends React.Component {
     this.setState({ serverName: value });
   }
 
-  onLocalizationChange() {
-    const {importLocalization} = this.props;
-    importLocalization(this.inputElement.files[0], (success) => {
-      if(success) {
-        alert(this.props.txt.get("upload_success"));
-      } else {
-        alert(this.props.txt.get("upload_failed"));
-      }
-    });
-    this.inputElement.value = "";
+  onLangCodeChange(value) {
+    this.setState({ langCode: value })
   }
 
-  onDefaultLocalizationDownload() {
-    var data = encodeURIComponent(JSON.stringify(Localization, null, 4));
-    var jsonURL = "data:text/json;charset=utf-8," + data;
-
-    var tempLink = document.createElement('a');
-    tempLink.href = jsonURL;
-    tempLink.setAttribute('download', 'localization.json');
-    tempLink.click();
-    tempLink.remove();
+  onLangNameChange(value) {
+    this.setState({ langName: value })
   }
 
-  onUserLocalizationDownload() {
-    var data = encodeURIComponent(JSON.stringify(this.props.localization, null, 4));
-    var jsonURL = "data:text/json;charset=utf-8," + data;
+  onLocalizationSelect() {
+    if(this.inputElement.files[0] !== undefined) {
+      this.setState({ localizationFile: this.inputElement.files[0] })
+    }
+  }
 
-    var tempLink = document.createElement('a');
-    tempLink.href = jsonURL;
-    tempLink.setAttribute('download', 'localization.json');
-    tempLink.click();
-    tempLink.remove();
+  onLanguageSelect(value) {
+    if (value != '') {
+      this.props.downloadLocalization(value, (lang, response) => {
+        let translation = response.hasOwnProperty("translation") 
+          ? response.translation 
+          : null;
+
+        if (translation != null) {
+          var data = encodeURIComponent(JSON.stringify(translation, null, 4));
+          var jsonURL = "data:text/json;charset=utf-8," + data;
+          var tempLink = document.createElement('a');
+          tempLink.href = jsonURL;
+          tempLink.setAttribute('download', `${lang}.json`);
+          tempLink.click();
+          tempLink.remove();
+        }
+      });
+      document.querySelector("#langSelect").value = "";
+    }
   }
 
   onSaveClick() {
@@ -70,12 +71,32 @@ export class SettingsPage extends React.Component {
     this.setState({ serverName: "opentranslationtools.org" });
   }
 
-  handleInputClick = (e) => {
-    this.inputElement.click();
+  handleInputClick = () => {
+    const {importLocalization} = this.props;
+    var data = new FormData();
+    data.append('langCode', this.state.langCode);
+    data.append('langName', this.state.langName);
+    data.append('file', this.state.localizationFile);
+
+    importLocalization(data, () => {
+      localStorage.setItem('language', this.state.langCode);
+      alert(this.props.txt.get("upload_success"));
+    }, (error) => {
+      alert(`${this.props.txt.get("upload_failed")}: ${this.props.txt.get(error)}`);
+      console.log(error);
+    });
+    this.inputElement.value = "";
+    document.querySelector("#langCode").value = "";
+    document.querySelector("#langName").value = "";
   }
 
   render() {
-    const {txt} = this.props;
+    const {txt, localization} = this.props;
+
+    let languages = {};
+    if(localization !== undefined) {
+      languages = localization.languages;
+    }
 
     return (
       <Container>
@@ -100,16 +121,31 @@ export class SettingsPage extends React.Component {
           </SettingsItem>
           
           <SettingsItem>
-            <SettingsTitle>{txt.get("localizationFile")}</SettingsTitle>
+            <SettingsTitle>{txt.get("uploadLocalization")}</SettingsTitle>
             <SettingsValue>
-              <SettingsFileInput onClick={this.handleInputClick}>{txt.get("upload")}</SettingsFileInput>
+              <SettingsInput type="text" id="langCode"
+                onChange={(e) => { this.onLangCodeChange(e.target.value) }}
+                placeholder={txt.get("languageCode")} />
+              
+              <SettingsInput type="text" id="langName"
+                onChange={(e) => { this.onLangNameChange(e.target.value) }}
+                placeholder={txt.get("languageName")} />
+              
               <SettingsInput type="file" id="localization" accept=".json"
-                onChange={(e) => {this.onLocalizationChange()}} 
-                innerRef={input => this.inputElement = input}
-                style={{display: 'none'}} />
-                <DownloadLink onClick={this.onDefaultLocalizationDownload}>{txt.get("downloadDefaultLocal")}</DownloadLink>
-                <DownloadLink onClick={this.onUserLocalizationDownload}>{txt.get("downloadUserLocal")}</DownloadLink>
+                onChange={(e) => {this.onLocalizationSelect()}}
+                innerRef={input => this.inputElement = input} />
+              
+              <SettingsFileInput onClick={this.handleInputClick}>{txt.get("upload")}</SettingsFileInput>
+            
             </SettingsValue>
+          </SettingsItem>
+          
+          <SettingsItem>
+            <SettingsTitle>{txt.get("downloadLocalization")}</SettingsTitle>
+            <SettingsSelect id="langSelect" onChange={(e) => this.onLanguageSelect(e.target.value)}>
+              <option value="">-- {txt.get("select")} --</option>
+              {Object.entries(languages).map(([code, lng]) => <option value={code}> {lng} </option> )}
+            </SettingsSelect>
           </SettingsItem>
         
         </SettingsContainer>
@@ -191,6 +227,16 @@ const SettingsInput = styled.input`
   height: 30px;
   border-radius: 5px;
   padding: 0 5px;
+  margin-bottom: 10px;
+`;
+SettingsInput.displayName = 'SettingsInput';
+
+const SettingsSelect = styled.select`
+  width: 300px;
+  height: 30px;
+  border-radius: 5px;
+  padding: 0 5px;
+  margin-bottom: 5px;
 `;
 SettingsInput.displayName = 'SettingsInput';
 
@@ -239,7 +285,7 @@ const RestoreDefaultsButton = styled.a`
 RestoreDefaultsButton.displayName = 'RestoreDefaultsButton';
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({importLocalization}, dispatch);
+  return bindActionCreators({importLocalization, downloadLocalization}, dispatch);
 };
 
 const mapStateToProps = state => {
