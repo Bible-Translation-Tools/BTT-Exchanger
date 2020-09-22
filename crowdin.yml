@@ -1,6 +1,5 @@
 files:
-  - source: /admin-client/android/app/src/main/res/values/strings.xml
-    translation: >-
-      /admin-client/android/app/src/main/res/values-%two_letters_code%/strings.xml
+  - source: /web/te-backend/tRecorderApi/media/lang/en.json
+    translation: /web/te-backend/tRecorderApi/media/lang/%two_letters_code%.json
   - source: /android-client/app/src/main/res/values/strings.xml
     translation: /android-client/app/src/main/res/values-%two_letters_code%/strings.xml
