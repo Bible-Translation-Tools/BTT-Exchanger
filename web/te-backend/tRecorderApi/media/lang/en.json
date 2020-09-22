@@ -107,10 +107,13 @@
 	"anthology": "Anthology",
 	"sourceLanguage": "Src. Language",
 	"projectDetails": "Project Details",
-	"localizationFile": "Localization file",
 	"upload": "Upload",
 	"upload_success": "Successfully uploaded",
 	"upload_failed": "Upload failed",
-	"downloadDefaultLocal": "Download Default Localization",
-	"downloadUserLocal": "Download User Localization"
+	"downloadLocalization": "Download Localization",
+	"uploadLocalization": "Upload Localization",
+	"languageCode": "Language Code",
+	"languageName": "Language Name",
+	"not_allowed": "Action not allowed",
+	"invalid_params": "Invalid parameters"
 }
