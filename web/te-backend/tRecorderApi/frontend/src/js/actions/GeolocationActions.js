@@ -9,10 +9,8 @@ export const fetchLocalization = (lang) => {
       .get(`${config.apiUrl}localization/?lang=${lang}`)
       .then(response => {
         dispatch(dispatchLocalizationReceived(response.data));
-        const storedLanguage = localStorage.getItem('language');
-        if (storedLanguage) {
-          dispatch(updateLanguage(storedLanguage))
-        }
+        const storedLanguage = localStorage.getItem('language') || 'en';
+        dispatch(updateLanguage(storedLanguage))
       })
       .catch(err => {
         dispatch(dispatchLocalizationFailed(err));
