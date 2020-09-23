@@ -17,7 +17,6 @@ export const fetchLocalization = (lang) => {
       })
       .catch(err => {
         dispatch(dispatchLocalizationFailed(lang, err));
-        localStorage.setItem('language', 'en');
       });
   };
 };

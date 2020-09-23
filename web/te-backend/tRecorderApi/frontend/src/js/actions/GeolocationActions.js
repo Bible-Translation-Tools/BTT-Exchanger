@@ -11,7 +11,7 @@ export const fetchLocalization = (lang) => {
         dispatch(dispatchLocalizationReceived(response.data));
         const storedLanguage = localStorage.getItem('language');
         if (storedLanguage) {
-          dispatch(updateLanguage(storedLanguage))
+          dispatch(updateLanguage(storedLanguage));
         }
       })
       .catch(err => {
