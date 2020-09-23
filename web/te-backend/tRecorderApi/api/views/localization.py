@@ -20,10 +20,7 @@ class LocalizationView(views.APIView):
             lang = "en"
         json_data = FileUtility.open_localization_file(lang)
 
-        if json_data is not None:
-            return Response(json_data, status=200)
-        else:
-            return Response({"error": "bad_or_not_exist_json"}, status=400)
+        Response(json_data, status=200)
 
     def post(self, request, filename):
         lang_code = request.data["langCode"] if request.data["langCode"] else None
