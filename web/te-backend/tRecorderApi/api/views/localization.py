@@ -26,9 +26,9 @@ class LocalizationView(views.APIView):
             return Response({"error": "bad_or_not_exist_json"}, status=400)
 
     def post(self, request, filename):
-        lang_code = request.data["langCode"] if "langCode" in request.data else None
-        lang_name = request.data["langName"] if "langName" in request.data else None
-        file = request.data["file"] if "file" in request.data else None
+        lang_code = request.data["langCode"] if request.data["langCode"] else None
+        lang_name = request.data["langName"] if request.data["langName"] else None
+        file = request.data["file"] if request.data["file"] else None
 
         response = {"success": False}
 
@@ -36,7 +36,7 @@ class LocalizationView(views.APIView):
             response["error"] = "not_allowed"
             return Response(response, status=400)
 
-        if lang_code is not None and lang_code != "" and file is not None:
+        if lang_code is not None and file is not None:
             fs = FileSystemStorage()
             uuid_name = str(time.time()) + str(uuid.uuid4())
             uploaded_file = fs.save("tmp/" + uuid_name, file)
