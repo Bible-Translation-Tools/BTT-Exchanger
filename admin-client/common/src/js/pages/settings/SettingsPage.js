@@ -53,31 +53,30 @@ export class SettingsPage extends React.Component {
       this.setState({ langCode: elm.value });
       this.setState({ langName: elm.options[elm.selectedIndex].text });
     } else {
-      document.querySelector("#langCode").value = '';
-      document.querySelector("#langName").value = '';
-
-      this.setState({ langCode: '' });
-      this.setState({ langName: '' });
+      this.resetInputStates();
     }
   }
 
   onDownloadLanguageSelect(value) {
     if (value != '') {
-      this.props.downloadLocalization(value, (lang, response) => {
-        let translation = response.hasOwnProperty("translation") 
-          ? response.translation 
-          : null;
+      this.props.downloadLocalization(
+        value, 
+        (lang, response) => {
+          let translation = response.hasOwnProperty("translation") 
+            ? response.translation 
+            : null;
 
-        if (translation != null) {
-          var data = encodeURIComponent(JSON.stringify(translation, null, 4));
-          var jsonURL = "data:text/json;charset=utf-8," + data;
-          var tempLink = document.createElement('a');
-          tempLink.href = jsonURL;
-          tempLink.setAttribute('download', `${lang}.json`);
-          tempLink.click();
-          tempLink.remove();
+          if (translation != null) {
+            var data = encodeURIComponent(JSON.stringify(translation, null, 4));
+            var jsonURL = "data:text/json;charset=utf-8," + data;
+            var tempLink = document.createElement('a');
+            tempLink.href = jsonURL;
+            tempLink.setAttribute('download', `${lang}.json`);
+            tempLink.click();
+            tempLink.remove();
+          }
         }
-      });
+      );
       document.querySelector("#downloadLangSelect").value = "";
     }
   }
@@ -93,20 +92,25 @@ export class SettingsPage extends React.Component {
 
   handleInputClick = () => {
     const {importLocalization} = this.props;
+    
     var data = new FormData();
     data.append('langCode', this.state.langCode);
     data.append('langName', this.state.langName);
     data.append('file', this.state.localizationFile);
 
-    importLocalization(data, () => {
-      localStorage.setItem('language', this.state.langCode);
-      this.onMessageDialogShown(true, this.props.txt.get("upload_success"));
-      this.resetInputStates();
-    }, (error) => {
-      this.onMessageDialogShown(true, `${this.props.txt.get("upload_failed")}: ${this.props.txt.get(error)}`);
-      this.resetInputStates();
-      console.log(error);
-    });
+    importLocalization(
+      data, 
+      () => {
+        localStorage.setItem('language', this.state.langCode);
+        this.onMessageDialogShown(true, this.props.txt.get("upload_success"));
+        this.resetInputStates();
+      }, 
+      (error) => {
+        this.onMessageDialogShown(true, `${this.props.txt.get("upload_failed")}: ${this.props.txt.get(error)}`);
+        this.resetInputStates();
+        console.log(error);
+      }
+    );
   }
 
   onMessageDialogShown(isShown, message) {
