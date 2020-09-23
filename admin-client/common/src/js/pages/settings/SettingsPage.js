@@ -141,73 +141,77 @@ export class SettingsPage extends React.Component {
     }
 
     return (
-      <Container>
+      <div>
 
-        { isMessageDialogShown?
-            <MessageDialog {...this.props} message={dialogMessage} onClick={this.onMessageDialogShown} />
-          : ""
-        }
+          { isMessageDialogShown?
+              <MessageDialog {...this.props} message={dialogMessage} onClick={this.onMessageDialogShown} />
+            : ""
+          }
 
-        <BackLink onClick={()=> this.props.history.goBack()}>
-          <i className="material-icons">arrow_backward </i> {txt.get("goBack")}
-        </BackLink>
+        <Container>
 
-        <Header>
-          {txt.get("settings")}
-        </Header>
+          <BackLink onClick={()=> this.props.history.goBack()}>
+            <i className="material-icons">arrow_backward </i> {txt.get("goBack")}
+          </BackLink>
 
-        <SettingsContainer>
-          
-          <SettingsItem>
-            <SettingsTitle>{txt.get("serverName")}</SettingsTitle>
-            <SettingsValue>
-              <SettingsInput type="text" id="serverName" 
-                value={this.state.serverName}
-                onChange={(e) => {this.onServerNameChange(e.target.value)}} />
-            </SettingsValue>
-          </SettingsItem>
-          
-          <SettingsItem>
-            <SettingsTitle>{txt.get("uploadLocalization")}</SettingsTitle>
-            <SettingsValue>
-              <SettingsSelect id="uploadLangSelect" onChange={(e) => this.onUploadLanguageSelect(e.target)}>
+          <Header>
+            {txt.get("settings")}
+          </Header>
+
+          <SettingsContainer>
+            
+            <SettingsItem>
+              <SettingsTitle>{txt.get("serverName")}</SettingsTitle>
+              <SettingsValue>
+                <SettingsInput type="text" id="serverName" 
+                  value={this.state.serverName}
+                  onChange={(e) => {this.onServerNameChange(e.target.value)}} />
+              </SettingsValue>
+            </SettingsItem>
+            
+            <SettingsItem>
+              <SettingsTitle>{txt.get("uploadLocalization")}</SettingsTitle>
+              <SettingsValue>
+                <SettingsSelect id="uploadLangSelect" onChange={(e) => this.onUploadLanguageSelect(e.target)}>
+                  <option value="">-- {txt.get("select")} --</option>
+                  {Object.entries(languages).map(([code, lng]) => <option value={code}> {lng} </option> )}
+                </SettingsSelect>
+
+                <SettingsInput type="text" id="langCode"
+                  onChange={(e) => { this.onLangCodeChange(e.target.value) }}
+                  placeholder={txt.get("languageCode")} />
+                
+                <SettingsInput type="text" id="langName"
+                  onChange={(e) => { this.onLangNameChange(e.target.value) }}
+                  placeholder={txt.get("languageName")} />
+                
+                <SettingsInput type="file" id="localization" accept=".json"
+                  onChange={(e) => {this.onLocalizationSelect()}}
+                  innerRef={input => this.inputElement = input} />
+                
+                <SettingsFileInput onClick={this.handleInputClick}>{txt.get("upload")}</SettingsFileInput>
+              
+              </SettingsValue>
+            </SettingsItem>
+            
+            <SettingsItem>
+              <SettingsTitle>{txt.get("downloadLocalization")}</SettingsTitle>
+              <SettingsSelect id="downloadLangSelect" onChange={(e) => this.onDownloadLanguageSelect(e.target.value)}>
                 <option value="">-- {txt.get("select")} --</option>
                 {Object.entries(languages).map(([code, lng]) => <option value={code}> {lng} </option> )}
               </SettingsSelect>
-
-              <SettingsInput type="text" id="langCode"
-                onChange={(e) => { this.onLangCodeChange(e.target.value) }}
-                placeholder={txt.get("languageCode")} />
-              
-              <SettingsInput type="text" id="langName"
-                onChange={(e) => { this.onLangNameChange(e.target.value) }}
-                placeholder={txt.get("languageName")} />
-              
-              <SettingsInput type="file" id="localization" accept=".json"
-                onChange={(e) => {this.onLocalizationSelect()}}
-                innerRef={input => this.inputElement = input} />
-              
-              <SettingsFileInput onClick={this.handleInputClick}>{txt.get("upload")}</SettingsFileInput>
-            
-            </SettingsValue>
-          </SettingsItem>
+            </SettingsItem>
           
-          <SettingsItem>
-            <SettingsTitle>{txt.get("downloadLocalization")}</SettingsTitle>
-            <SettingsSelect id="downloadLangSelect" onChange={(e) => this.onDownloadLanguageSelect(e.target.value)}>
-              <option value="">-- {txt.get("select")} --</option>
-              {Object.entries(languages).map(([code, lng]) => <option value={code}> {lng} </option> )}
-            </SettingsSelect>
-          </SettingsItem>
-        
-        </SettingsContainer>
+          </SettingsContainer>
 
-        <ButtonsContainer>
-          <SaveButton onClick={this.onSaveClick.bind(this)}>{txt.get("save")}</SaveButton>
-          <RestoreDefaultsButton onClick={this.onRestoreClick.bind(this)}>{txt.get("restoreDefaults")}</RestoreDefaultsButton>
-        </ButtonsContainer>
+          <ButtonsContainer>
+            <SaveButton onClick={this.onSaveClick.bind(this)}>{txt.get("save")}</SaveButton>
+            <RestoreDefaultsButton onClick={this.onRestoreClick.bind(this)}>{txt.get("restoreDefaults")}</RestoreDefaultsButton>
+          </ButtonsContainer>
 
-      </Container>
+        </Container>
+
+      </div>
     );
 
   }
