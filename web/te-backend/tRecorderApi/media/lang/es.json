@@ -115,5 +115,6 @@
 	"languageCode": "Language Code",
 	"languageName": "Language Name",
 	"not_allowed": "Action not allowed",
-	"invalid_params": "Invalid parameters"
+	"invalid_params": "Invalid parameters",
+	"settingsSaved": "Settings saved! Please restart the app."
 }
