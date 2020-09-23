@@ -50,9 +50,9 @@ export class Welcome extends React.Component {
     
     const menu = (
       <Menu onSelect={ ky=> this.onSelect(ky)}>
-        {Object.entries(languages).map(([code, lng]) => 
-          <MenuItem style={{cursor: 'pointer', color: '#fff', backgroundColor: '#000' }} key={code}>
-             {lng} 
+        {Object.keys(languages).map(lng => 
+          <MenuItem style={{cursor: 'pointer', color: '#fff', backgroundColor: '#000' }} key={lng}>
+             {languages[lng]} 
           </MenuItem> 
         )}
       </Menu>
