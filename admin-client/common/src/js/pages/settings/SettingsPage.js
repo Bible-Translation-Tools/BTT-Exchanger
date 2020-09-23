@@ -91,7 +91,7 @@ export class SettingsPage extends React.Component {
   }
 
   handleInputClick = () => {
-    const {importLocalization} = this.props;
+    const {importLocalization, txt} = this.props;
     
     var data = new FormData();
     data.append('langCode', this.state.langCode);
@@ -102,11 +102,11 @@ export class SettingsPage extends React.Component {
       data, 
       () => {
         localStorage.setItem('language', this.state.langCode);
-        this.onMessageDialogShown(true, this.props.txt.get("upload_success"));
+        this.onMessageDialogShown(true, txt.get("upload_success"));
         this.resetInputStates();
       }, 
       (error) => {
-        this.onMessageDialogShown(true, `${this.props.txt.get("upload_failed")}: ${this.props.txt.get(error)}`);
+        this.onMessageDialogShown(true, `${txt.get("upload_failed")}: ${txt.get(error)}`);
         this.resetInputStates();
         console.log(error);
       }
