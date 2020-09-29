@@ -18,7 +18,7 @@ mkdir clients
 mkdir admintools
 
 #zip up the install folder for distribution
-mv install BTT-Exchanger ; zip -r install.zip BTT-Exchanger/*
+mv install BTT-Exchanger ; zip -r install.zip BTT-Exchanger ; mv BTT-Exchanger install
 
 # CD to the frontend where the electron app lives
 cd ./web/te-backend/tRecorderApi/frontend
