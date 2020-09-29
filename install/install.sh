@@ -48,7 +48,8 @@ esac
 
 echo -e "${COLOR}----------| Installing neccessary software for the server... |----------${NC}"
 
-sudo apt update && sudo apt install -y curl python-pip apt-transport-https ca-certificates software-properties-common jq
+sudo apt update && sudo apt install -y curl python3-pip apt-transport-https ca-certificates software-properties-common jq
+sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
 sudo apt update && sudo apt install -y docker-ce
