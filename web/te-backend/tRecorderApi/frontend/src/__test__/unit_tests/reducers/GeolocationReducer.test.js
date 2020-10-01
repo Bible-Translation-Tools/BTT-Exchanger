@@ -1,7 +1,6 @@
 /* global expect describe it  */
 import reducer from '../../../js/reducers/GeolocationReducer';
 import * as types from '../../../js/reduxConstants';
-import language from '../../../languages/textToDisplay.json';
 
 
 describe('Geolocation Reducer', ()=> {
@@ -9,9 +8,9 @@ describe('Geolocation Reducer', ()=> {
     expect(JSON.stringify(reducer(undefined, {}))).toEqual(JSON.stringify({
       txt: {
         get: jest.fn(),
-        language: language.English
+        language: {}
       },
-      localization: language
+      localization: {translation: {}, languages: {}}
     }));
   });
 
@@ -22,9 +21,9 @@ describe('Geolocation Reducer', ()=> {
     }))).toEqual(JSON.stringify({
       txt: {
         get: jest.fn(),
-        language: language.Cebuano
+        language: {}
       },
-      localization: language
+      localization: {translation: {}, languages: {}}
     }));
   });
 

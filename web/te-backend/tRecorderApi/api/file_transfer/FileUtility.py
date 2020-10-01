@@ -211,16 +211,32 @@ class FileUtility:
             logger.error("Error: ", str(e))
             
     @staticmethod
-    def open_localization_file():
-        try:
-            base_dir = FileUtility.get_base_dir()
-            path = os.path.join(base_dir, 'media/lang/textToDisplay.json')
+    def open_localization_file(lang):
+        base_dir = FileUtility.get_base_dir()
+        langs_dir = os.path.join(base_dir, 'media/lang')
 
-            with open(path) as json_file:
-                localization = json.load(json_file)
-                return localization
+        lang_dict = {
+            "translation": {},
+            "languages": {}
+        }
+
+        # Read translation file
+        try:
+            trans_path = os.path.join(langs_dir, f'{lang}.json')
+            with open(trans_path) as json_file:
+                lang_dict["translation"] = json.load(json_file)
         except Exception as e:
             logger.error("Error: ", str(e))
+
+        # Read languages list file
+        try:
+            langs_path = os.path.join(langs_dir, 'langs.json')
+            with open(langs_path) as json_file:
+                lang_dict["languages"] = json.load(json_file)
+        except Exception as e:
+            logger.error("Error: ", str(e))
+
+        return lang_dict
             
     @staticmethod
     def save_localization_file(localization):

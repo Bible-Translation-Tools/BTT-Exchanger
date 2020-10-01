@@ -13,7 +13,6 @@ import MessageDialog from '../../components/MessageDialog';
 import Menu, { Item as MenuItem } from 'rc-menu';
 import Dropdown from 'rc-dropdown';
 import 'rc-dropdown/assets/index.css';
-import Languages from '../../../languages/textToDisplay.json';
 
 
 export class Dashboard extends Component {
@@ -36,7 +35,9 @@ export class Dashboard extends Component {
 
   componentWillMount() {
     const {fetchLocalization} = this.props;
-    fetchLocalization();
+    
+    const lang = localStorage.getItem('language') || 'en';
+    fetchLocalization(lang);
   }
 
   onConfirmed(isYes) {
@@ -52,9 +53,11 @@ export class Dashboard extends Component {
   }
 
   onLanguageSelect({key}) {
+    const { fetchLocalization } = this.props;
     const language = key;
-    this.props.updateLanguage(language);
+    
     localStorage.setItem('language', language);
+    fetchLocalization(language);
   }
 
   onConfirmDialogShown(isShown, message, callback) {
@@ -91,14 +94,14 @@ export class Dashboard extends Component {
       this.confirmCallback = null;
     }
 
-    let langs = Languages;
+    let languages = {};
     if(localization != undefined) {
-      langs = localization;
+      languages = localization.languages;
     }
 
     const menu = (
       <Menu onSelect={ ky => this.onLanguageSelect(ky)}>
-        {Object.keys(langs).map(lng => <MenuItem style={{cursor: 'pointer', color: '#fff', backgroundColor: '#000' }} key={lng}> {lng} </MenuItem> )}
+        {Object.entries(languages).map(([code, lng]) => <MenuItem style={{cursor: 'pointer', color: '#fff', backgroundColor: '#000' }} key={code}> {lng} </MenuItem> )}
       </Menu>
     );
 
