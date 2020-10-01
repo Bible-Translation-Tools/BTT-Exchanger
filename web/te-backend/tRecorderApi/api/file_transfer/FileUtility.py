@@ -239,17 +239,53 @@ class FileUtility:
         return lang_dict
             
     @staticmethod
-    def save_localization_file(localization):
+    def save_localization_file(code, name, translation):
         base_dir = FileUtility.get_base_dir()
-        target_dir = os.path.join(base_dir, 'media/lang/')
+        langs_dir = os.path.join(base_dir, 'media/lang')
 
-        if not os.path.exists(target_dir):
-            os.makedirs(target_dir)
+        if not os.path.exists(langs_dir):
+            os.makedirs(langs_dir)
 
-        target_file = os.path.join(target_dir, 'textToDisplay.json')
-
+        target_file = os.path.join(langs_dir, f'{code}.json')
         with(open(target_file, 'w')) as out_file:
-            json.dump(localization, out_file, indent=4)
+            json.dump(translation, out_file, indent=4, ensure_ascii=False)
+
+        languages = FileUtility.update_translation_languages(code, name)
+
+        return {"translation": translation, "languages": languages}
+
+    @staticmethod
+    def translation_exists(code):
+        base_dir = FileUtility.get_base_dir()
+        langs_dir = os.path.join(base_dir, 'media/lang')
+        trans_path = os.path.join(langs_dir, f'{code}.json')
+
+        return os.path.exists(trans_path)
+
+    @staticmethod
+    def update_translation_languages(code, name):
+        base_dir = FileUtility.get_base_dir()
+        langs_dir = os.path.join(base_dir, 'media/lang')
+        langs_path = os.path.join(langs_dir, 'langs.json')
+
+        name = code if name is None or name == "" else name
+
+        with open(langs_path, 'r+') as json_file:
+            langs = json.load(json_file)
+
+            if code in langs:
+                # Update existent language name
+                if name != code and name != langs[code]:
+                    langs[code] = name
+            else:
+                # Add new language
+                langs[code] = name
+
+            json_file.seek(0)
+            json.dump(langs, json_file, indent=4, ensure_ascii=False)
+            json_file.truncate()
+
+            return langs
 
     def generate_manifest_dictionary(self, project, takes):
         manifest = {

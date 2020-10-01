@@ -27,10 +27,19 @@ export default (state = INITIAL_STATE, action ={}) => {
         localization: action.response.hasOwnProperty("languages") ? action.response : INITIAL_STATE.localization,
         loading: false,
       };
+    case types.LOCALIZATION_DOWNLOADED:
+      return {
+        ...state,
+        loading: false,
+      };
     case types.IMPORT_LOCALIZATION:
       return {
         ...state,
-        localization: action.localization,
+        localization: action.localization.hasOwnProperty("languages") ? action.localization : INITIAL_STATE.localization,
+        txt: {
+          ...state.txt,
+          language: action.localization.hasOwnProperty("translation") ? action.localization.translation : {}
+        }
       };
     case types.LOCALIZATION_FAILED:
       return {

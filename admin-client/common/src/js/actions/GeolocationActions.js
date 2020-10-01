@@ -1,6 +1,6 @@
 import axios from 'axios';
 import config from '../../config/config';
-import { UPDATE_LANGUAGE, IMPORT_LOCALIZATION } from '../reduxConstants';
+import * as types from '../reduxConstants';
 
 
 export const fetchLocalization = (lang) => {
@@ -10,20 +10,33 @@ export const fetchLocalization = (lang) => {
       .get(`${config.apiUrl}localization/?lang=${lang}`)
       .then(response => {
         dispatch(dispatchLocalizationReceived(response.data));
-        const storedLanguage = localStorage.getItem('language');
-        if (storedLanguage) {
-          dispatch(updateLanguage(storedLanguage))
-        }
+        const storedLanguage = localStorage.getItem('language') || 'en';
+        dispatch(updateLanguage(storedLanguage));
       })
       .catch(err => {
-        dispatch(dispatchLocalizationFailed(err));
+        dispatch(dispatchLocalizationFailed(lang, err));
       });
   };
 };
 
-export const importLocalization = (file, callback) => {
-  var data = new FormData();
-  data.append('file', file);
+export const downloadLocalization = (lang, onSuccess) => {
+  return function(dispatch) {
+    dispatch(dispatchLocalizationFetching());
+    return axios
+      .get(`${config.apiUrl}localization/?lang=${lang}`)
+      .then(response => {
+        dispatch(dispatchLocalizationDownloaded(lang, response.data));
+        if(onSuccess !== undefined) {
+          onSuccess(lang, response.data);
+        }
+      })
+      .catch(err => {
+        dispatch(dispatchLocalizationFailed(lang, err));
+      });
+  };
+};
+
+export const importLocalization = (data, onSuccess, onError) => {
   return function(dispatch) {
     return axios
       .post(`${config.apiUrl}localization/file`, data, {
@@ -32,16 +45,18 @@ export const importLocalization = (file, callback) => {
       .then(response => {
         var localization = response.data.localization;
         dispatch({
-          type: IMPORT_LOCALIZATION,
+          type: types.IMPORT_LOCALIZATION,
           localization
         });
-        if(callback != undefined) {
-          callback(true);
+        if(onSuccess !== undefined) {
+          onSuccess();
         }
       })
       .catch( exception => {
-        if(callback != undefined) {
-          callback(false);
+        console.log(exception);
+        if(onError !== undefined) {
+          let error = exception.response.data.error || 'unknown';
+          onError(error);
         }
       });
   };
@@ -50,25 +65,33 @@ export const importLocalization = (file, callback) => {
 export const updateLanguage = (updatelanguage) => {
 
   return {
-    type: UPDATE_LANGUAGE,
+    type: types.UPDATE_LANGUAGE,
     updatelanguage,
   };
 };
 
 export const dispatchLocalizationReceived = (response) => {
   return {
-    type: 'LOCALIZATION_SUCCESS',
+    type: types.LOCALIZATION_SUCCESS,
     response,
   };
 };
-export const dispatchLocalizationFailed = err => {
+export const dispatchLocalizationDownloaded = (lang, response) => {
   return {
-    type: 'LOCALIZATION_FAILED',
+    type: types.LOCALIZATION_DOWNLOADED,
+    lang,
+    response,
+  };
+};
+export const dispatchLocalizationFailed = (lang, err) => {
+  return {
+    type: types.LOCALIZATION_FAILED,
+    lang,
     err: err.toString(),
   };
 };
 export const dispatchLocalizationFetching = () => {
   return {
-    type: 'LOCALIZATION_FETCHING',
+    type: types.LOCALIZATION_FETCHING,
   };
 };
