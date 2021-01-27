@@ -1,10 +1,13 @@
 import datetime
+import os
 import uuid
 from zipfile import BadZipfile
 
 import celery
 from celery import shared_task
 from celery.utils.log import get_task_logger
+
+from .orature_adapter import OratureFileAdapter
 
 logger = get_task_logger(__name__)
 
@@ -38,6 +41,10 @@ def extract_and_save_project(self, file, directory, title, started, user, file_n
     if resp == 'ok':
         self.file_utility.remove_file(file)
         logger.info("File extracted and removed.")
+        
+        if os.path.exists(os.path.join(directory, "manifest.yaml")):
+            OratureFileAdapter(directory).process()
+
         details = self.file_utility.import_project(directory, user, update_progress, task_args)
 
         return task_finished(task, title, started, 'Upload complete!', details)

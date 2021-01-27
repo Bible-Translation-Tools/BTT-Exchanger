@@ -14,3 +14,4 @@ redis~=3.4
 flower~=0.9
 drf-yasg~=1.12
 rest-social-auth~=3.0
+pyyaml
