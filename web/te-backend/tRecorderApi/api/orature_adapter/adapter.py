@@ -3,7 +3,8 @@ import json
 import re
 from pydub import AudioSegment
 from .yaml_reader import OratureYamlConverter
-from .file_name_parser import ResourceInfo, MetadataTag
+from .file_name_parser import ResourceInfo
+from .metadata_tag import MetadataTag
 
 
 class OratureFileAdapter:
