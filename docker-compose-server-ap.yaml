@@ -71,7 +71,7 @@ services:
       SENTRY_REDIS_HOST: 'redis'
 
   web:
-    image: bibletranslationtools/btte-web
+    image: bibletranslationtools/btte-web:local
     container_name: dg01
     restart: on-failure
     volumes:
@@ -91,7 +91,7 @@ services:
     entrypoint: /scripts/entrypoint-web.sh
 
   celery_worker:
-    image: bibletranslationtools/btte-web
+    image: bibletranslationtools/btte-web:local
     restart: on-failure
     environment: 
       - C_FORCE_ROOT=true
@@ -107,7 +107,7 @@ services:
       - web
 
   flower:
-    image: bibletranslationtools/btte-web
+    image: bibletranslationtools/btte-web:local
     volumes:
       - media:/var/www/html/tE-backend/tRecorderApi/media
       - dsn:/dsn
