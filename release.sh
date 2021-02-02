@@ -43,7 +43,7 @@ fi
 #create the release
 github-release release \
                --user $GITHUB_USER \
-               --repo GITHUB_REPO \
+               --repo $GITHUB_REPO \
                --tag $TAG \
                --name $TAG \
                --description "release $TAG"               
@@ -51,21 +51,21 @@ github-release release \
 #Upload asset
 github-release upload \
                --user $GITHUB_USER \
-               --repo GITHUB_REPO \
+               --repo $GITHUB_REPO \
                --tag $TAG \
                --name "clients.zip" \
                --file ./clients.zip
 
 github-release upload \
                --user $GITHUB_USER \
-               --repo GITHUB_REPO \
+               --repo $GITHUB_REPO \
                --tag $TAG \
                --name "install.zip" \
                --file ./install.zip
 
 github-release upload \
                --user $GITHUB_USER \
-               --repo GITHUB_REPO \
+               --repo $GITHUB_REPO \
                --tag $TAG \
                --name "admintools.zip" \
                --file ./admintools.zip
