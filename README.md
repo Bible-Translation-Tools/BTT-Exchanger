@@ -33,7 +33,7 @@ BTT Exchanger is a platform for backup, checking, collating, and exporting oral 
 - There are two prompts to respond to in the install script. The first asks whether you want to install a Wifi Access Point on the server (PC) itself or if you want to use an external Access Point like the TP-Link mentioned above. The second prompt is to unlpug the network cable for reboot. The install sets up a DHCP server, so unplugging the network cable before rebooting and starting the DHCP server is highly recommended. 
 
 ## TP-Link Config
-1.  See the [TP-Link documentation](https://www.tp-link.com/us/support/download/tl-wr802n/) for how to change the config. Feel free to adjust its config such as admin password, SSID, and wireless password.
+1.  See the [TP-Link documentation](https://www.tp-link.com/us/support/download/tl-wr802n/) for how to change the config. Feel free to adjust its config such as admin password, SSID, and wireless password. *The default password for the network is `oralmast`*
 1. Plug the TP-Link in and connect to the default wifi network according to the instructions.
 1. Follow the setup wizard and select "Smart IP" on the LAN Settings or Networking page. It will not allow you to uncheck the DHCP box, but DHCP will be disabled.
 
