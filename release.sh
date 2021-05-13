@@ -35,17 +35,37 @@ mv admintools/app-release.apk admintools/btte_android_admin_$TAG.apk
 zip admintools.zip ./admintools/*
 
 
-#Check for the gothub Github release go package, if not there, go get it
-if [ ! -f "$GOPATH/bin/gothub" ]; then
-go get github.com/itchio/gothub; else exit;
+#Check for the Github release go package, if not there, go get it
+if [ ! -f "$GOPATH/bin/github-release" ]; then
+go get github.com/github-release/github-release; else exit;
 fi
 
 #create the release
-gothub release --tag $TAG -p
+github-release release \
+               --user $GITHUB_USER \
+               --repo $GITHUB_REPO \
+               --tag $TAG \
+               --name $TAG \
+               --description "release $TAG"               
 
 #Upload asset
-gothub upload --tag $TAG --name "clients.zip" --file ./clients.zip
+github-release upload \
+               --user $GITHUB_USER \
+               --repo $GITHUB_REPO \
+               --tag $TAG \
+               --name "clients.zip" \
+               --file ./clients.zip
 
-gothub upload --tag $TAG --name "install.zip" --file ./install.zip
+github-release upload \
+               --user $GITHUB_USER \
+               --repo $GITHUB_REPO \
+               --tag $TAG \
+               --name "install.zip" \
+               --file ./install.zip
 
-gothub upload --tag $TAG --name "admintools.zip" --file ./admintools.zip
+github-release upload \
+               --user $GITHUB_USER \
+               --repo $GITHUB_REPO \
+               --tag $TAG \
+               --name "admintools.zip" \
+               --file ./admintools.zip

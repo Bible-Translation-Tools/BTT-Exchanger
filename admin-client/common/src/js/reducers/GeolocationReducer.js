@@ -1,14 +1,13 @@
 import * as types from '../reduxConstants'
-import language from '../../languages/textToDisplay.json';
 
 const INITIAL_STATE = { 
   txt: {
     get: function(key) {
       return this.language.hasOwnProperty(key) ? this.language[key] : key
     },
-    language: language.English
+    language: {}
   },
-  localization: language
+  localization: {translation: {}, languages: {}}
 };
 
 export default (state = INITIAL_STATE, action ={}) => {
@@ -19,19 +18,28 @@ export default (state = INITIAL_STATE, action ={}) => {
         ...state,
         txt: {
           ...state.txt,
-          language: state.localization.hasOwnProperty(action.updatelanguage) ? state.localization[action.updatelanguage] : language.English
+          language: state.localization.hasOwnProperty("translation") ? state.localization.translation : {}
         }
       };
     case types.LOCALIZATION_SUCCESS:
       return {
         ...state,
-        localization: action.response,
+        localization: action.response.hasOwnProperty("languages") ? action.response : INITIAL_STATE.localization,
+        loading: false,
+      };
+    case types.LOCALIZATION_DOWNLOADED:
+      return {
+        ...state,
         loading: false,
       };
     case types.IMPORT_LOCALIZATION:
       return {
         ...state,
-        localization: action.localization,
+        localization: action.localization.hasOwnProperty("languages") ? action.localization : INITIAL_STATE.localization,
+        txt: {
+          ...state.txt,
+          language: action.localization.hasOwnProperty("translation") ? action.localization.translation : {}
+        }
       };
     case types.LOCALIZATION_FAILED:
       return {
