@@ -18,6 +18,7 @@
     "express": "~4.16.2",
     "fast-deep-equal": "~1.1.0",
     "font-awesome": "~4.7.0",
+    "fs-extra": "~9.1.0",
     "howler": "~2.0.4",
     "immutability-helper": "~2.7.0",
     "jdenticon": "~2.2.0",
