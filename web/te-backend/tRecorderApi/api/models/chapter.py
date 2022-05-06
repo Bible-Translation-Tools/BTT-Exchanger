@@ -1,7 +1,3 @@
-import os
-import json
-import re
-
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 
@@ -51,16 +47,14 @@ class Chapter(models.Model):
 
     @property
     def completed(self):
-        chunks_done = self.get_uploaded_chunks()
-        total_chunks = self.get_total_chunks(self.project.book.slug, self.number)
         try:
-            return int(round((chunks_done / total_chunks) * 100))
+            return int(round((self.published_chunks / self.total_chunks) * 100))
         except ZeroDivisionError:
             return 0
 
     @property
     def total_chunks(self):
-        return self.get_total_chunks(self.project.book.slug, self.number)
+        return self.chunks.count()
 
     @property
     def uploaded_chunks(self):
@@ -80,28 +74,6 @@ class Chapter(models.Model):
             if chunk.has_takes:
                 count += 1
         return count
-
-    def get_total_chunks(self, book_name_slug, chapter_number):
-        length = 0
-        lastvs = 0
-        # TODO 'os' will not be useful when the code migrates to AWS
-        for dirpath, dirnames, files in os.walk(os.path.abspath('static/chunks/')):
-            if dirpath[-3:] == book_name_slug:
-                for fname in os.listdir(dirpath):
-                    f = open(os.path.join(dirpath, fname), "r")
-                    sus = json.loads(f.read())
-
-                    for ch in sus:
-                        n = re.sub(r'([0-9]{2,3})-([0-9]{2,3})', r'\1', ch["id"])
-
-                        if int(n) == chapter_number:
-                            lastvs = ch["lastvs"]
-                            length += 1
-                break
-
-        if str(self.project.mode) == "verse":
-            return int(lastvs)
-        return length
 
     @staticmethod
     def import_chapter(project, number, checked_level):
