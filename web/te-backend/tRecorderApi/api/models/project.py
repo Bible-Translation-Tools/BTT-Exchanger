@@ -1,6 +1,3 @@
-import json
-import os
-
 from django.db import models
 from .chunk import Chunk
 
@@ -29,25 +26,20 @@ class Project(models.Model):
         return '{}-{}-{} ({})'.format(self.language, self.version, self.book, self.id)
 
     def get_completed_chunks(self):
-        return Chunk.objects.filter(chapter__project=self.pk).count()
+        chunks = Chunk.objects.filter(chapter__project=self.pk)
+        completed = 0
+        for chunk in chunks:
+            if chunk.published_take is not None:
+                completed += 1
+        return completed
 
-    @staticmethod
-    def get_total_chunks(book_name_slug):
-        chunk_info = []
-        # TODO 'os' will not be useful when the code migrates to AWS
-        for dirpath, dirnames, files in os.walk(os.path.abspath('static/chunks/')):
-            if dirpath[-3:] == book_name_slug:
-                for fname in os.listdir(dirpath):
-                    f = open(os.path.join(dirpath, fname), "r")
-                    sus = json.loads(f.read())
-                    chunk_info = sus
-                break
-        return len(chunk_info)
+    def get_total_chunks(self):
+        return Chunk.objects.filter(chapter__project=self.pk).count()
 
     @property
     def completed(self):
         chunks_done = self.get_completed_chunks()
-        total_chunks = self.get_total_chunks(self.book.slug)
+        total_chunks = self.get_total_chunks()
         try:
             return int(round((chunks_done / total_chunks) * 100))
         except ZeroDivisionError:

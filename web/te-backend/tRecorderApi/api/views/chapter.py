@@ -10,7 +10,7 @@ from api.serializers import ChapterSerializer
 from django.core.exceptions import SuspiciousOperation
 
 @method_decorator(name='list', decorator=swagger_auto_schema(
-    operation_description="Return list of anthologies based on given query string",
+    operation_description="Return list of chapters based on given query string",
     manual_parameters=[
         openapi.Parameter(
             name='id', in_=openapi.IN_QUERY,
